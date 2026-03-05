@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 09:18:48 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/05 13:26:53 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/05 13:35:02 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	handle_sigint(int sig)
 {
 	(void)sig;
 	if (singleton()->data)
-        stop_simulation();
+		stop_simulation();
 }
 
 static void	handle_sigquit(int sig)
