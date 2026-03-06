@@ -1,3 +1,6 @@
 Testers:
 https://github.com/MichelleJiam/LazyPhilosophersTester
 https://github.com/dantonik/42-philosophers-tester
+
+Visualizer:
+https://rom98759.github.io/Philosophers-visualizer/
