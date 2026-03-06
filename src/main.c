@@ -6,13 +6,13 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 10:21:15 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/05 13:21:23 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/06 20:49:50 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-void	start_threads(void)
+static void	start_threads(void)
 {
 	int	i;
 
@@ -29,7 +29,7 @@ void	start_threads(void)
 	}
 }
 
-void	join_threads(void)
+static void	join_threads(void)
 {
 	int	i;
 
@@ -41,7 +41,7 @@ void	join_threads(void)
 	}
 }
 
-void	free_resources(void)
+static void	free_resources(void)
 {
 	if (singleton()->data)
 		free(singleton()->data);
@@ -51,7 +51,7 @@ void	free_resources(void)
 		free(singleton()->forks);
 }
 
-void	cleanup_and_exit(void)
+static void	cleanup_and_exit(void)
 {
 	if (singleton()->data)
 	{
@@ -60,7 +60,7 @@ void	cleanup_and_exit(void)
 	}
 	if (singleton()->philos && singleton()->data)
 		destroy_mutexes();
-	reset_signals();
+	setup_signals(SIG_RESET);
 	free_resources();
 	singleton()->data = NULL;
 	singleton()->philos = NULL;
@@ -107,7 +107,7 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	init_singleton(data, philos, forks);
-	setup_signals();
+	setup_signals(SIG_SETUP);
 	singleton()->data->start_time = get_time_ms();
 	init_meal_times();
 	start_threads();

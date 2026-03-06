@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 10:45:47 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/05 13:26:02 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/06 20:54:50 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	stop_simulation(void)
 	pthread_mutex_unlock(&singleton()->data->stop_mutex);
 }
 
-bool	check_deaths(void)
+static bool	check_deaths(void)
 {
 	int		i;
 	long	time_since_meal;
@@ -54,7 +54,7 @@ bool	check_deaths(void)
 	return (false);
 }
 
-bool	check_all_ate(void)
+static bool	check_all_ate(void)
 {
 	int	i;
 	int	satisfied_count;

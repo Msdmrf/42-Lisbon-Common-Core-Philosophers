@@ -6,13 +6,13 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 10:45:26 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/05 13:25:36 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/06 20:53:00 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-void	take_forks(t_philo *philo)
+static void	take_forks(t_philo *philo)
 {
 	if (philo->data->philo_count == 1)
 	{
@@ -37,7 +37,7 @@ void	take_forks(t_philo *philo)
 	}
 }
 
-void	philo_eat(t_philo *philo)
+static void	philo_eat(t_philo *philo)
 {
 	print_status(philo, "is eating");
 	pthread_mutex_lock(&philo->meal_mutex);
@@ -47,7 +47,7 @@ void	philo_eat(t_philo *philo)
 	precise_sleep(philo->data->time_to_eat);
 }
 
-void	release_forks(t_philo *philo)
+static void	release_forks(t_philo *philo)
 {
 	if (philo->data->philo_count == 1)
 		return ;
@@ -55,13 +55,13 @@ void	release_forks(t_philo *philo)
 	pthread_mutex_unlock(philo->right_fork);
 }
 
-void	philo_sleep(t_philo *philo)
+static void	philo_sleep(t_philo *philo)
 {
 	print_status(philo, "is sleeping");
 	precise_sleep(philo->data->time_to_sleep);
 }
 
-void	philo_think(t_philo *philo)
+static void	philo_think(t_philo *philo)
 {
 	print_status(philo, "is thinking");
 }

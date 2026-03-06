@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 09:18:48 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/05 13:35:02 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/06 20:29:49 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,16 @@ static void	handle_sigquit(int sig)
 	}
 }
 
-void	setup_signals(void)
+void	setup_signals(int mode)
 {
-	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, handle_sigquit);
-}
-
-void	reset_signals(void)
-{
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
+	if (mode == SIG_SETUP)
+	{
+		signal(SIGINT, handle_sigint);
+		signal(SIGQUIT, handle_sigquit);
+	}
+	else if (mode == SIG_RESET)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+	}
 }

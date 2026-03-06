@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 10:20:50 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/05 13:21:31 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/06 20:58:23 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@
 # include <sys/time.h>
 # include <unistd.h>
 # include <signal.h>
+
+// Signal Modes
+# define SIG_SETUP 1
+# define SIG_RESET 2
 
 // Data Structure
 typedef struct s_data
@@ -56,82 +60,29 @@ typedef struct s_singleton
 	pthread_mutex_t	*forks;
 }	t_singleton;
 
-// ************************************************************************** //
-//                                 SINGLETON                                  //
-// ************************************************************************** //
-
 // signals.c
 t_singleton		*singleton(void);
-
-// ************************************************************************** //
-//                                  PARSING                                   //
-// ************************************************************************** //
+void			setup_signals(int mode);
 
 // parser.c
 t_data			*parse_args(int argc, char **argv);
-bool			validate_data(t_data *data);
-void			print_usage(void);
-int				ft_atoi(const char *str);
-long			ft_atol(const char *str);
-
-// ************************************************************************** //
-//                              INITIALIZATION                                //
-// ************************************************************************** //
 
 // init.c
 pthread_mutex_t	*init_forks(int count);
 t_philo			*init_philos(t_data *data, pthread_mutex_t *forks);
 void			destroy_mutexes(void);
 
-// ************************************************************************** //
-//                            PHILOSOPHER ROUTINE                             //
-// ************************************************************************** //
-
 // routine.c
 void			*philo_routine(void *arg);
-void			take_forks(t_philo *philo);
-void			philo_eat(t_philo *philo);
-void			release_forks(t_philo *philo);
-void			philo_sleep(t_philo *philo);
-void			philo_think(t_philo *philo);
-
-// ************************************************************************** //
-//                                MONITORING                                  //
-// ************************************************************************** //
 
 // monitor.c
-void			monitor_simulation(void);
-bool			check_deaths(void);
-bool			check_all_ate(void);
 bool			is_simulation_stopped(void);
 void			stop_simulation(void);
-
-// ************************************************************************** //
-//                                 UTILITIES                                  //
-// ************************************************************************** //
+void			monitor_simulation(void);
 
 // utils.c
 long			get_time_ms(void);
-long			get_elapsed_time(long start_time);
 void			print_status(t_philo *philo, char *status);
 void			precise_sleep(long milliseconds);
-
-// ************************************************************************** //
-//                                   MAIN                                     //
-// ************************************************************************** //
-
-// main.c
-void			start_threads(void);
-void			join_threads(void);
-void			free_resources(void);
-void			cleanup_and_exit(void);
-
-// ************************************************************************** //
-//                                  SIGNALS                                   //
-// ************************************************************************** //
-
-// signals.c
-void			setup_signals(void);
-void			reset_signals(void);
 
 #endif

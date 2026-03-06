@@ -6,20 +6,20 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 10:21:54 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/05 13:22:01 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/06 20:48:31 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-void	print_usage(void)
+static void	print_usage(void)
 {
 	printf("Usage: ./philo number_of_philosophers time_to_die ");
 	printf("time_to_eat time_to_sleep ");
 	printf("[number_of_times_each_philosopher_must_eat]\n");
 }
 
-int	ft_atoi(const char *str)
+static int	ft_atoi(const char *str)
 {
 	int	result;
 	int	sign;
@@ -42,7 +42,7 @@ int	ft_atoi(const char *str)
 	return (result * sign);
 }
 
-long	ft_atol(const char *str)
+static long	ft_atol(const char *str)
 {
 	long	result;
 	int		sign;
@@ -65,7 +65,7 @@ long	ft_atol(const char *str)
 	return (result * sign);
 }
 
-bool	validate_data(t_data *data)
+static bool	validate_data(t_data *data)
 {
 	if (data->philo_count <= 0 || data->philo_count > 200)
 	{
