@@ -6,7 +6,7 @@
 #    By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/02 10:20:02 by migusant          #+#    #+#              #
-#    Updated: 2026/03/08 12:26:27 by migusant         ###   ########.fr        #
+#    Updated: 2026/03/08 23:01:09 by migusant         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,58 @@
 # **************************************************************************** #
 
 NAME = philo
-ARGS = 2 410 200 200 5
+
+# *** Evaluation Sheet Tests: *** #
+
+#ARGS = 1 800 200 200
+#ARGS = 5 800 200 200
+#ARGS = 5 800 200 200 7
+#ARGS = 4 410 200 200
+#ARGS = 4 310 200 100
+#ARGS = 2 410 200 200
+#ARGS = 2 310 200 100
+
+# *** Extra Tests: *** #
+
+# --- (+5ms) --- #
+#ARGS = 49 800 200 200 10
+#ARGS = 49 605 200 200
+#ARGS = 49 600 200 100
+
+# --- (+10ms) --- #
+#ARGS = 50 800 200 200 10
+#ARGS = 50 410 200 200
+#ARGS = 50 300 200 100
+
+# --- (+10ms) --- #
+#ARGS = 99 800 200 200 10
+#ARGS = 99 610 200 200
+#ARGS = 99 600 200 100
+
+# --- (+20ms) --- #
+#ARGS = 100 800 200 200 10
+#ARGS = 100 420 200 200
+#ARGS = 100 300 200 100
+
+# --- (+15ms) --- #
+#ARGS = 149 800 200 200 10
+#ARGS = 149 615 200 200
+#ARGS = 149 600 200 100
+
+# --- (+30ms) --- #
+#ARGS = 150 800 200 200 10
+#ARGS = 150 430 200 200
+#ARGS = 150 300 200 100
+
+# --- (+25ms) --- #
+#ARGS = 199 800 200 200 10
+#ARGS = 199 625 200 200
+#ARGS = 199 600 200 100
+
+# --- (+40ms) --- #
+#ARGS = 200 800 200 200 10
+#ARGS = 200 440 200 200
+#ARGS = 200 300 200 100
 
 # **************************************************************************** #
 #                              COMPILER SETTINGS                               #
@@ -71,6 +122,9 @@ $(NAME): $(OBJ)
 	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
 	@echo "$(GREEN)$(NAME) successfully created!$(RESET)"
 
+t: all
+	@./$(NAME) $(ARGS)
+
 v: all
 	@mkdir -p $(LOG_DIR)
 	@clear && valgrind --leak-check=full --show-leak-kinds=all \
@@ -124,4 +178,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re v h
+.PHONY: all clean fclean re t v h
