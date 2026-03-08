@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 10:21:15 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/08 12:24:22 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/08 12:45:54 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ int	main(int argc, char **argv)
 	data = parse_args(argc, argv);
 	if (!data)
 		return (1);
-	singleton()->data = data;
 	fork_mutexes = init_fork_mutexes(data->philo_count);
-	singleton()->fork_mutexes = fork_mutexes;
 	philos = init_philos(data, fork_mutexes);
+	singleton()->data = data;
+	singleton()->fork_mutexes = fork_mutexes;
 	singleton()->philos = philos;
 	if (!fork_mutexes || !philos)
 		return (cleanup_and_exit(), 1);
