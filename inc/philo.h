@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 10:20:50 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/08 12:30:31 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/08 20:25:59 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,12 @@
 # include <sys/time.h>
 # include <unistd.h>
 
+// Enable Debug Mode
+# define PHILO_DEBUG	0
+
 // Signal Modes
-# define SIG_SETUP 1
-# define SIG_RESET 2
+# define SIG_SETUP		1
+# define SIG_RESET		2
 
 // Data Structure
 typedef struct s_data
@@ -44,7 +47,7 @@ typedef struct s_philo
 {
 	int				id;
 	pthread_t		thread;
-	long			last_meal_time;
+	long			time_to_live;
 	int				meals_eaten;
 	pthread_mutex_t	meal_mutex;
 	pthread_mutex_t	*right_fork_mutex;
@@ -91,5 +94,6 @@ void			setup_signals(int mode);
 long			get_time_ms(void);
 void			print_status(t_philo *philo, char *status);
 void			precise_sleep(long milliseconds);
+void			print_meal_summary(char *status);
 
 #endif

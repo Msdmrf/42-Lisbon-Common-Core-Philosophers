@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 09:24:43 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/08 12:18:40 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/08 23:08:07 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ t_philo	*init_philos(t_data *data, pthread_mutex_t *fork_mutexes)
 	{
 		philos[i].id = i + 1;
 		philos[i].meals_eaten = 0;
-		philos[i].last_meal_time = 0;
+		philos[i].time_to_live = 0;
 		philos[i].data = data;
 		philos[i].right_fork_mutex = &fork_mutexes[(i + 1) % data->philo_count];
 		philos[i].left_fork_mutex = &fork_mutexes[i];
@@ -84,7 +84,8 @@ void	init_meal_times(void)
 	i = 0;
 	while (i < singleton()->data->philo_count)
 	{
-		singleton()->philos[i].last_meal_time = start_time;
+		singleton()->philos[i].time_to_live = start_time
+		+ singleton()->data->time_to_die;
 		i++;
 	}
 }

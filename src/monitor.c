@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 10:45:47 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/08 11:01:43 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/08 17:17:47 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,23 +32,23 @@ void	stop_simulation(void)
 static bool	check_deaths(void)
 {
 	int		i;
-	long	time_since_meal;
 	long	current_time;
 
+	current_time = get_time_ms();
 	i = 0;
 	while (i < singleton()->data->philo_count)
 	{
-		current_time = get_time_ms();
 		pthread_mutex_lock(&singleton()->philos[i].meal_mutex);
-		time_since_meal = current_time
-			- singleton()->philos[i].last_meal_time;
-		pthread_mutex_unlock(&singleton()->philos[i].meal_mutex);
-		if (time_since_meal > singleton()->data->time_to_die)
+		if (current_time >= singleton()->philos[i].time_to_live)
 		{
+			pthread_mutex_unlock(&singleton()->philos[i].meal_mutex);
 			print_status(&singleton()->philos[i], "died");
 			stop_simulation();
+			if (PHILO_DEBUG)
+				print_meal_summary("Failed");
 			return (true);
 		}
+		pthread_mutex_unlock(&singleton()->philos[i].meal_mutex);
 		i++;
 	}
 	return (false);
@@ -75,6 +75,8 @@ static bool	check_all_ate(void)
 	if (satisfied_count == singleton()->data->philo_count)
 	{
 		stop_simulation();
+		if (PHILO_DEBUG)
+			print_meal_summary("Complete");
 		return (true);
 	}
 	return (false);
@@ -88,6 +90,6 @@ void	monitor_simulation(void)
 			break ;
 		if (check_all_ate())
 			break ;
-		usleep(1000);
+		usleep(500);
 	}
 }

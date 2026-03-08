@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 09:18:48 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/08 11:01:28 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/08 17:06:30 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,11 @@ static void	handle_sigint(int sig)
 {
 	(void)sig;
 	if (singleton()->data)
+	{
 		stop_simulation();
+		if (PHILO_DEBUG)
+			print_meal_summary("Interrupted");
+	}
 }
 
 static void	handle_sigquit(int sig)
@@ -32,6 +36,8 @@ static void	handle_sigquit(int sig)
 	if (singleton()->data)
 	{
 		stop_simulation();
+		if (PHILO_DEBUG)
+			print_meal_summary("Interrupted");
 		write(STDOUT_FILENO, "Quit\n", 5);
 	}
 }
