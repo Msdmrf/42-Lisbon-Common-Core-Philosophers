@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 10:21:15 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/08 12:45:54 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/08 12:54:59 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ int	main(int argc, char **argv)
 	singleton()->data = data;
 	singleton()->fork_mutexes = fork_mutexes;
 	singleton()->philos = philos;
+	setup_signals(SIG_SETUP);
 	if (!fork_mutexes || !philos)
 		return (cleanup_and_exit(), 1);
-	setup_signals(SIG_SETUP);
 	singleton()->data->start_time = get_time_ms();
 	init_meal_times();
 	start_threads();
