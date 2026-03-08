@@ -6,7 +6,7 @@
 #    By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/02 10:20:02 by migusant          #+#    #+#              #
-#    Updated: 2026/03/05 13:20:39 by migusant         ###   ########.fr        #
+#    Updated: 2026/03/08 12:26:27 by migusant         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,11 +49,13 @@ RESET = \033[0m
 # **************************************************************************** #
 
 SRC = src/main.c \
-	src/signals.c \
 	src/parser.c \
 	src/init.c \
+	src/threads.c \
 	src/routine.c \
 	src/monitor.c \
+	src/cleanup.c \
+	src/signals.c \
 	src/utils.c
 
 OBJ = $(patsubst $(SRC_DIR)%.c, $(OBJ_DIR)%.o, $(SRC))

@@ -1,0 +1,42 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   threads.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/02/05 10:23:49 by migusant          #+#    #+#             */
+/*   Updated: 2026/03/08 12:24:48 by migusant         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../inc/philo.h"
+
+void	start_threads(void)
+{
+	int	i;
+
+	i = 0;
+	while (i < singleton()->data->philo_count)
+	{
+		if (pthread_create(&singleton()->philos[i].thread, NULL,
+				philo_routine, &singleton()->philos[i]) != 0)
+		{
+			stop_simulation();
+			return ;
+		}
+		i++;
+	}
+}
+
+void	join_threads(void)
+{
+	int	i;
+
+	i = 0;
+	while (i < singleton()->data->philo_count)
+	{
+		pthread_join(singleton()->philos[i].thread, NULL);
+		i++;
+	}
+}

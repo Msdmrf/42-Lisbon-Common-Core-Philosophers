@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 10:45:26 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/06 20:53:00 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/08 10:46:03 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,22 @@ static void	take_forks(t_philo *philo)
 {
 	if (philo->data->philo_count == 1)
 	{
-		pthread_mutex_lock(philo->left_fork);
+		pthread_mutex_lock(philo->right_fork_mutex);
 		print_status(philo, "has taken a fork");
-		pthread_mutex_unlock(philo->left_fork);
 		return ;
 	}
 	if (philo->id % 2 == 0)
 	{
-		pthread_mutex_lock(philo->left_fork);
+		pthread_mutex_lock(philo->right_fork_mutex);
 		print_status(philo, "has taken a fork");
-		pthread_mutex_lock(philo->right_fork);
+		pthread_mutex_lock(philo->left_fork_mutex);
 		print_status(philo, "has taken a fork");
 	}
 	else
 	{
-		pthread_mutex_lock(philo->right_fork);
+		pthread_mutex_lock(philo->left_fork_mutex);
 		print_status(philo, "has taken a fork");
-		pthread_mutex_lock(philo->left_fork);
+		pthread_mutex_lock(philo->right_fork_mutex);
 		print_status(philo, "has taken a fork");
 	}
 }
@@ -51,8 +50,8 @@ static void	release_forks(t_philo *philo)
 {
 	if (philo->data->philo_count == 1)
 		return ;
-	pthread_mutex_unlock(philo->left_fork);
-	pthread_mutex_unlock(philo->right_fork);
+	pthread_mutex_unlock(philo->right_fork_mutex);
+	pthread_mutex_unlock(philo->left_fork_mutex);
 }
 
 static void	philo_sleep(t_philo *philo)

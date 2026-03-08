@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 10:20:50 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/06 20:58:23 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/08 12:30:31 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 # define PHILO_H
 
 # include <pthread.h>
+# include <signal.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/time.h>
 # include <unistd.h>
-# include <signal.h>
 
 // Signal Modes
 # define SIG_SETUP 1
@@ -47,8 +47,8 @@ typedef struct s_philo
 	long			last_meal_time;
 	int				meals_eaten;
 	pthread_mutex_t	meal_mutex;
-	pthread_mutex_t	*left_fork;
-	pthread_mutex_t	*right_fork;
+	pthread_mutex_t	*right_fork_mutex;
+	pthread_mutex_t	*left_fork_mutex;
 	t_data			*data;
 }	t_philo;
 
@@ -56,21 +56,21 @@ typedef struct s_philo
 typedef struct s_singleton
 {
 	t_data			*data;
+	pthread_mutex_t	*fork_mutexes;
 	t_philo			*philos;
-	pthread_mutex_t	*forks;
 }	t_singleton;
-
-// signals.c
-t_singleton		*singleton(void);
-void			setup_signals(int mode);
 
 // parser.c
 t_data			*parse_args(int argc, char **argv);
 
 // init.c
-pthread_mutex_t	*init_forks(int count);
-t_philo			*init_philos(t_data *data, pthread_mutex_t *forks);
-void			destroy_mutexes(void);
+pthread_mutex_t	*init_fork_mutexes(int count);
+t_philo			*init_philos(t_data *data, pthread_mutex_t *fork_mutexes);
+void			init_meal_times(void);
+
+// threads.c
+void			start_threads(void);
+void			join_threads(void);
 
 // routine.c
 void			*philo_routine(void *arg);
@@ -79,6 +79,13 @@ void			*philo_routine(void *arg);
 bool			is_simulation_stopped(void);
 void			stop_simulation(void);
 void			monitor_simulation(void);
+
+// cleanup.c
+void			cleanup_and_exit(void);
+
+// signals.c
+t_singleton		*singleton(void);
+void			setup_signals(int mode);
 
 // utils.c
 long			get_time_ms(void);

@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 10:21:54 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/06 20:48:31 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/08 11:01:31 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,7 @@ t_data	*parse_args(int argc, char **argv)
 	t_data	*data;
 
 	if (argc < 5 || argc > 6)
-	{
-		print_usage();
-		return (NULL);
-	}
+		return (print_usage(), NULL);
 	data = malloc(sizeof(t_data));
 	if (!data)
 		return (NULL);
@@ -109,7 +106,9 @@ t_data	*parse_args(int argc, char **argv)
 	data->simulation_stop = false;
 	if (!validate_data(data))
 		return (free(data), NULL);
-	pthread_mutex_init(&data->stop_mutex, NULL);
-	pthread_mutex_init(&data->print_mutex, NULL);
+	if (pthread_mutex_init(&data->stop_mutex, NULL) != 0)
+		return (free(data), NULL);
+	if (pthread_mutex_init(&data->print_mutex, NULL) != 0)
+		return (pthread_mutex_destroy(&data->stop_mutex), free(data), NULL);
 	return (data);
 }

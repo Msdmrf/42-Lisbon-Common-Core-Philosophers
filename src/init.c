@@ -6,33 +6,33 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 09:24:43 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/05 13:25:15 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/08 12:18:40 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-pthread_mutex_t	*init_forks(int count)
+pthread_mutex_t	*init_fork_mutexes(int count)
 {
-	pthread_mutex_t	*forks;
+	pthread_mutex_t	*fork_mutexes;
 	int				i;
 
-	forks = malloc(sizeof(pthread_mutex_t) * count);
-	if (!forks)
+	fork_mutexes = malloc(sizeof(pthread_mutex_t) * count);
+	if (!fork_mutexes)
 		return (NULL);
 	i = 0;
 	while (i < count)
 	{
-		if (pthread_mutex_init(&forks[i], NULL) != 0)
+		if (pthread_mutex_init(&fork_mutexes[i], NULL) != 0)
 		{
 			while (--i >= 0)
-				pthread_mutex_destroy(&forks[i]);
-			free(forks);
+				pthread_mutex_destroy(&fork_mutexes[i]);
+			free(fork_mutexes);
 			return (NULL);
 		}
 		i++;
 	}
-	return (forks);
+	return (fork_mutexes);
 }
 
 static void	cleanup_partial_philos(t_philo *philos, int count)
@@ -48,7 +48,7 @@ static void	cleanup_partial_philos(t_philo *philos, int count)
 	free(philos);
 }
 
-t_philo	*init_philos(t_data *data, pthread_mutex_t *forks)
+t_philo	*init_philos(t_data *data, pthread_mutex_t *fork_mutexes)
 {
 	t_philo	*philos;
 	int		i;
@@ -63,8 +63,8 @@ t_philo	*init_philos(t_data *data, pthread_mutex_t *forks)
 		philos[i].meals_eaten = 0;
 		philos[i].last_meal_time = 0;
 		philos[i].data = data;
-		philos[i].left_fork = &forks[i];
-		philos[i].right_fork = &forks[(i + 1) % data->philo_count];
+		philos[i].right_fork_mutex = &fork_mutexes[(i + 1) % data->philo_count];
+		philos[i].left_fork_mutex = &fork_mutexes[i];
 		if (pthread_mutex_init(&philos[i].meal_mutex, NULL) != 0)
 		{
 			cleanup_partial_philos(philos, i);
@@ -75,17 +75,16 @@ t_philo	*init_philos(t_data *data, pthread_mutex_t *forks)
 	return (philos);
 }
 
-void	destroy_mutexes(void)
+void	init_meal_times(void)
 {
-	int	i;
+	int		i;
+	long	start_time;
 
-	if (!singleton()->philos || !singleton()->forks)
-		return ;
+	start_time = singleton()->data->start_time;
 	i = 0;
 	while (i < singleton()->data->philo_count)
 	{
-		pthread_mutex_destroy(&singleton()->philos[i].meal_mutex);
-		pthread_mutex_destroy(&singleton()->forks[i]);
+		singleton()->philos[i].last_meal_time = start_time;
 		i++;
 	}
 }
