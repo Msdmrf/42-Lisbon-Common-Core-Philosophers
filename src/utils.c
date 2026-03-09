@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 09:06:17 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/08 15:22:58 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/09 10:16:58 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ long	get_time_ms(void)
 	return ((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
-static long	get_elapsed_time(long start_time)
+long	get_elapsed_time(long start_time)
 {
 	return (get_time_ms() - start_time);
 }
