@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 09:06:17 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/09 10:16:58 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/09 20:42:15 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	print_status(t_philo *philo, char *status)
 	pthread_mutex_unlock(&philo->data->print_mutex);
 }
 
-void	precise_sleep(long milliseconds)
+void	precise_sleep(long ms)
 {
 	long	start;
 	long	elapsed;
@@ -49,7 +49,7 @@ void	precise_sleep(long milliseconds)
 	while (1)
 	{
 		elapsed = get_time_ms() - start;
-		if (elapsed >= milliseconds)
+		if (elapsed >= ms)
 			break ;
 		usleep(500);
 	}
