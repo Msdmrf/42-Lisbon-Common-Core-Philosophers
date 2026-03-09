@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 10:20:50 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/08 20:25:59 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/09 12:26:05 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ void			setup_signals(int mode);
 
 // utils.c
 long			get_time_ms(void);
+long			get_elapsed_time(long start_time);
 void			print_status(t_philo *philo, char *status);
 void			precise_sleep(long milliseconds);
 void			print_meal_summary(char *status);
