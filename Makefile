@@ -6,7 +6,7 @@
 #    By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/02 10:20:02 by migusant          #+#    #+#              #
-#    Updated: 2026/03/09 19:28:36 by migusant         ###   ########.fr        #
+#    Updated: 2026/03/09 19:33:19 by migusant         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ NAME = philo
 
 #ARGS = 1 800 200 200
 #ARGS = 5 800 200 200
-#ARGS = 5 800 200 200 7
+ARGS = 5 800 200 200 7
 #ARGS = 4 410 200 200
 #ARGS = 4 310 200 100
 #ARGS = 2 410 200 200
@@ -108,6 +108,7 @@ SRC = src/main.c \
 	src/init.c \
 	src/threads.c \
 	src/routine.c \
+	src/forks.c \
 	src/monitor.c \
 	src/cleanup.c \
 	src/signals.c \

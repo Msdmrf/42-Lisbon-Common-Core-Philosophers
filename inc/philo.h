@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 10:20:50 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/09 12:26:05 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/09 19:41:25 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,10 @@ void			join_threads(void);
 
 // routine.c
 void			*philo_routine(void *arg);
+
+// forks.c
+int				take_forks(t_philo *philo);
+void			release_forks(t_philo *philo);
 
 // monitor.c
 bool			is_simulation_stopped(void);
