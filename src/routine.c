@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 10:45:26 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/08 21:58:38 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/09 16:48:16 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,10 +114,26 @@ static void	philo_think(t_philo *philo)
 void	*philo_routine(void *arg)
 {
 	t_philo	*philo;
+	long	base_offset;
+	long	increment;
+	long	stagger_delay;
 
 	philo = (t_philo *)arg;
-	if (philo->id % 2 == 0)
-		usleep(1000);
+	if (philo->id % 2 == 1)
+		base_offset = 0;
+	else
+		base_offset = 1000;
+	if (philo->data->philo_count <= 50)
+		increment = 50;
+	else if (philo->data->philo_count <= 100)
+		increment = 100;
+	else if (philo->data->philo_count <= 150)
+		increment = 150;
+	else
+		increment = 200;
+	stagger_delay = base_offset + ((philo->id - 1) / 2) * increment;
+	if (stagger_delay > 0)
+		usleep(stagger_delay);
 	while (!is_simulation_stopped())
 	{
 		if (take_forks(philo))
