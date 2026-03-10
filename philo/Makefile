@@ -6,7 +6,7 @@
 #    By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/02 10:20:02 by migusant          #+#    #+#              #
-#    Updated: 2026/03/10 15:04:51 by migusant         ###   ########.fr        #
+#    Updated: 2026/03/10 20:02:25 by migusant         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -143,7 +143,8 @@ v: all
 
 h: all
 	@mkdir -p $(LOG_DIR)
-	@clear && valgrind --tool=helgrind --log-file=$(LOG_DIR)helgrind.log \
+	@clear && valgrind --tool=helgrind --history-level=approx \
+		--conflict-cache-size=10000000 --log-file=$(LOG_DIR)helgrind.log \
 		-s ./$(NAME) $(ARGS)
 	@echo && cat $(LOG_DIR)helgrind.log
 
