@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 10:45:26 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/09 20:10:44 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/10 14:05:38 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,10 @@
 
 static long	calculate_stagger_delay(t_philo *philo)
 {
-	long	offset_ms;
 	long	step_ms;
+	long	offset_ms;
+	int		max_odd_index;
 
-	if (philo->id % 2 == 1)
-		offset_ms = 0;
-	else
-		offset_ms = 1000;
 	if (philo->data->philo_count <= 50)
 		step_ms = 50;
 	else if (philo->data->philo_count <= 100)
@@ -29,6 +26,14 @@ static long	calculate_stagger_delay(t_philo *philo)
 		step_ms = 150;
 	else
 		step_ms = 200;
+	if (philo->data->philo_count % 2 == 1)
+		max_odd_index = (philo->data->philo_count - 1) / 2;
+	else
+		max_odd_index = (philo->data->philo_count - 2) / 2;
+	if (philo->id % 2 == 1)
+		offset_ms = 0;
+	else
+		offset_ms = (max_odd_index + 1) * step_ms;
 	return (offset_ms + ((philo->id - 1) / 2) * step_ms);
 }
 
