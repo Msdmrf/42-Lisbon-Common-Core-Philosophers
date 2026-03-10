@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 10:45:47 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/09 10:30:47 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/10 13:43:21 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,13 @@ static bool	check_deaths(void)
 		pthread_mutex_lock(&singleton()->philos[i].meal_mutex);
 		if (current_time >= singleton()->philos[i].time_to_live)
 		{
-			pthread_mutex_unlock(&singleton()->philos[i].meal_mutex);
-			stop_simulation();
 			pthread_mutex_lock(&singleton()->data->print_mutex);
+			stop_simulation();
 			printf("%ld %d died\n",
 				get_elapsed_time(singleton()->data->start_time),
 				singleton()->philos[i].id);
 			pthread_mutex_unlock(&singleton()->data->print_mutex);
+			pthread_mutex_unlock(&singleton()->philos[i].meal_mutex);
 			if (PHILO_DEBUG)
 				print_meal_summary("Failed");
 			return (true);
