@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 09:24:43 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/10 13:52:08 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/10 15:07:48 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,14 +77,14 @@ t_philo	*init_philos(t_data *data, pthread_mutex_t *fork_mutexes)
 
 void	init_meal_times(void)
 {
-	long start_time;
-	int i;
+	long	start_time;
+	int		i;
 
 	start_time = singleton()->data->start_time;
 	i = 0;
 	while (i < singleton()->data->philo_count)
 	{
-		singleton()->philos[i].time_to_live = start_time 
+		singleton()->philos[i].time_to_live = start_time
 		+ singleton()->data->time_to_die;
 		i++;
 	}
