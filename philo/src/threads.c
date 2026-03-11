@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/05 10:23:49 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/08 12:24:48 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/11 11:25:06 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	start_threads(void)
 			stop_simulation();
 			return ;
 		}
+		singleton()->data->threads_created++;
 		i++;
 	}
 }
@@ -34,7 +35,7 @@ void	join_threads(void)
 	int	i;
 
 	i = 0;
-	while (i < singleton()->data->philo_count)
+	while (i < singleton()->data->threads_created)
 	{
 		pthread_join(singleton()->philos[i].thread, NULL);
 		i++;

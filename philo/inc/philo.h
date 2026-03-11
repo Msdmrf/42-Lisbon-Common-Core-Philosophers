@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 10:20:50 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/09 19:41:25 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/11 11:13:17 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,22 @@
 # include <unistd.h>
 
 // Enable Debug Mode
-# define PHILO_DEBUG	0
+# define PHILO_DEBUG			0
+
+// Philosopher Count Thresholds
+# define PHILO_COUNT_SMALL		50
+# define PHILO_COUNT_MEDIUM		100
+# define PHILO_COUNT_LARGE		150
+
+// Stagger Delay Values
+# define STAGGER_DELAY_SMALL	50
+# define STAGGER_DELAY_MEDIUM	100
+# define STAGGER_DELAY_LARGE	150
+# define STAGGER_DELAY_XLARGE	200
 
 // Signal Modes
-# define SIG_SETUP		1
-# define SIG_RESET		2
+# define SIG_SETUP				1
+# define SIG_RESET				2
 
 // Data Structure
 typedef struct s_data
@@ -36,6 +47,7 @@ typedef struct s_data
 	long			time_to_eat;
 	long			time_to_sleep;
 	int				must_eat_count;
+	int				threads_created;
 	long			start_time;
 	bool			simulation_stop;
 	pthread_mutex_t	stop_mutex;

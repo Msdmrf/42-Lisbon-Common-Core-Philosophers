@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 10:21:54 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/08 12:50:23 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/11 11:05:40 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ t_data	*parse_args(int argc, char **argv)
 		data->must_eat_count = ft_atoi(argv[5]);
 	else
 		data->must_eat_count = -1;
+	data->threads_created = 0;
 	data->start_time = 0;
 	data->simulation_stop = false;
 	if (!validate_data(data))

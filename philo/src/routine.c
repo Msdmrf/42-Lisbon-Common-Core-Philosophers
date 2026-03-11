@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 10:45:26 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/10 14:05:38 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/11 10:39:50 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,14 @@ static long	calculate_stagger_delay(t_philo *philo)
 	long	offset_ms;
 	int		max_odd_index;
 
-	if (philo->data->philo_count <= 50)
-		step_ms = 50;
-	else if (philo->data->philo_count <= 100)
-		step_ms = 100;
-	else if (philo->data->philo_count <= 150)
-		step_ms = 150;
+	if (philo->data->philo_count <= PHILO_COUNT_SMALL)
+		step_ms = STAGGER_DELAY_SMALL;
+	else if (philo->data->philo_count <= PHILO_COUNT_MEDIUM)
+		step_ms = STAGGER_DELAY_MEDIUM;
+	else if (philo->data->philo_count <= PHILO_COUNT_LARGE)
+		step_ms = STAGGER_DELAY_LARGE;
 	else
-		step_ms = 200;
+		step_ms = STAGGER_DELAY_XLARGE;
 	if (philo->data->philo_count % 2 == 1)
 		max_odd_index = (philo->data->philo_count - 1) / 2;
 	else
