@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:46 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/11 11:42:25 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/11 20:09:03 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,16 @@ void	kill_all_processes(void)
 	i = 0;
 	while (i < singleton()->processes_created)
 	{
-		kill(singleton()->pids[i], SIGKILL);
+		if (singleton()->pids[i] > 0)
+			kill(singleton()->pids[i], SIGTERM);
+		i++;
+	}
+	usleep(10000);
+	i = 0;
+	while (i < singleton()->processes_created)
+	{
+		if (singleton()->pids[i] > 0)
+			kill(singleton()->pids[i], SIGKILL);
 		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:35 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/11 11:41:58 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/11 20:08:41 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int	take_forks(t_philo *philo)
 		return (1);
 	}
 	print_status(philo, "has taken a fork");
-	philo->last_meal_time = get_time_ms();
 	return (0);
 }
 

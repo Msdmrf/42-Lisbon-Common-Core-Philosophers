@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:30 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/11 11:41:41 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/11 20:09:29 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,11 @@
 
 static void	philo_eat(t_philo *philo)
 {
+	long	current_time;
+
+	current_time = get_time_ms();
+	philo->last_meal_time = current_time;
 	print_status(philo, "is eating");
-	philo->last_meal_time = get_time_ms();
 	philo->meals_eaten++;
 	precise_sleep(philo->data->time_to_eat);
 }
