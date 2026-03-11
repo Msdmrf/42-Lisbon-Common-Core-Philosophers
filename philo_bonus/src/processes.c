@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:25 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/11 18:17:30 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/11 20:19:59 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,21 +43,27 @@ void	start_processes(void)
 
 void	wait_processes(void)
 {
-	int		i;
 	int		status;
+	pid_t	pid;
+	int		processes_remaining;
 
-	i = 0;
-	while (i < singleton()->processes_created)
+	processes_remaining = singleton()->processes_created;
+	while (processes_remaining > 0)
 	{
-		waitpid(singleton()->pids[i], &status, 0);
+		pid = waitpid(-1, &status, 0);
+		if (pid == -1)
+			break ;
+		processes_remaining--;
 		if (WIFEXITED(status) && WEXITSTATUS(status) == 1)
 		{
 			stop_simulation(singleton()->data);
 			kill_all_processes();
-			while (++i < singleton()->processes_created)
-				waitpid(singleton()->pids[i], NULL, 0);
+			while (processes_remaining > 0)
+			{
+				waitpid(-1, NULL, 0);
+				processes_remaining--;
+			}
 			return ;
 		}
-		i++;
 	}
 }

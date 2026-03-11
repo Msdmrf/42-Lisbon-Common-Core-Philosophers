@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:40 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/11 18:11:58 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/11 20:57:13 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,18 +41,18 @@ void	*monitor_routine(void *arg)
 		time_since_meal = get_time_ms() - philo->last_meal_time;
 		if (time_since_meal >= philo->data->time_to_die)
 		{
-			if (is_simulation_stopped(philo->data))
-				return (NULL);
-			sem_wait(philo->data->print_sem);
-			if (is_simulation_stopped(philo->data))
-				return (sem_post(philo->data->print_sem), NULL);
-			stop_simulation(philo->data);
-			printf("%ld %d died\n",
-				get_elapsed_time(philo->data->start_time), philo->id);
-			if (PHILO_DEBUG)
-				print_meal_summary("Failed");
-			sem_post(philo->data->print_sem);
-			exit(1);
+			if (sem_trywait(philo->data->death_sem) == 0)
+			{
+				stop_simulation(philo->data);
+				sem_wait(philo->data->print_sem);
+				printf("%ld %d died\n",
+					get_elapsed_time(philo->data->start_time), philo->id);
+				sem_post(philo->data->print_sem);
+				if (PHILO_DEBUG)
+					print_meal_summary("Failed");
+				exit(1);
+			}
+			return (NULL);
 		}
 	}
 	return (NULL);

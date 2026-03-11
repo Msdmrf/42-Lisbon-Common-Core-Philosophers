@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:46 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/11 20:09:03 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/11 20:58:18 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,26 +35,35 @@ void	kill_all_processes(void)
 	}
 }
 
+static void	cleanup_semaphores(void)
+{
+	if (!singleton()->data)
+		return ;
+	if (singleton()->data->forks_sem)
+	{
+		sem_close(singleton()->data->forks_sem);
+		sem_unlink(SEM_FORKS);
+	}
+	if (singleton()->data->print_sem)
+	{
+		sem_close(singleton()->data->print_sem);
+		sem_unlink(SEM_PRINT);
+	}
+	if (singleton()->data->stop_sem)
+	{
+		sem_close(singleton()->data->stop_sem);
+		sem_unlink(SEM_STOP);
+	}
+	if (singleton()->data->death_sem)
+	{
+		sem_close(singleton()->data->death_sem);
+		sem_unlink(SEM_DEATH);
+	}
+}
+
 void	cleanup_and_exit(void)
 {
-	if (singleton()->data)
-	{
-		if (singleton()->data->forks_sem)
-		{
-			sem_close(singleton()->data->forks_sem);
-			sem_unlink(SEM_FORKS);
-		}
-		if (singleton()->data->print_sem)
-		{
-			sem_close(singleton()->data->print_sem);
-			sem_unlink(SEM_PRINT);
-		}
-		if (singleton()->data->stop_sem)
-		{
-			sem_close(singleton()->data->stop_sem);
-			sem_unlink(SEM_STOP);
-		}
-	}
+	cleanup_semaphores();
 	setup_signals(SIG_RESET);
 	if (singleton()->pids)
 		free(singleton()->pids);

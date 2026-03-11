@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:30:55 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/11 12:42:12 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/11 20:54:22 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@
 # define SEM_FORKS		"/philo_forks"
 # define SEM_PRINT		"/philo_print"
 # define SEM_STOP		"/philo_stop"
+# define SEM_DEATH		"/philo_death"
 
 // Data Structure
 typedef struct s_data
@@ -49,6 +50,7 @@ typedef struct s_data
 	sem_t			*forks_sem;
 	sem_t			*print_sem;
 	sem_t			*stop_sem;
+	sem_t			*death_sem;
 }	t_data;
 
 // Philosopher Structure
