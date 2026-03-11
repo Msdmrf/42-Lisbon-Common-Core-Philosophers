@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:25 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/11 12:52:56 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/11 18:17:30 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ void	start_processes(void)
 		if (pid == -1)
 		{
 			stop_simulation(singleton()->data);
-			kill_all_processes();
-			return ;
+			return (kill_all_processes());
 		}
 		else if (pid == 0)
 		{
@@ -57,7 +56,7 @@ void	wait_processes(void)
 			kill_all_processes();
 			while (++i < singleton()->processes_created)
 				waitpid(singleton()->pids[i], NULL, 0);
-			return;
+			return ;
 		}
 		i++;
 	}
