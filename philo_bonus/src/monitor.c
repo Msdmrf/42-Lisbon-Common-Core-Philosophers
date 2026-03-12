@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:40 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/12 13:47:54 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/12 14:18:44 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	*monitor_routine(void *arg)
 	long	time_since_meal;
 
 	philo = (t_philo *)arg;
-	while (!is_simulation_stopped(philo->data))
+	while (!is_simulation_stopped(philo->data) && !philo->monitor_should_stop)
 	{
 		usleep(500);
 		time_since_meal = get_time_ms() - philo->last_meal_time;
@@ -50,8 +50,7 @@ void	*monitor_routine(void *arg)
 				sem_post(philo->data->print_sem);
 				if (PHILO_DEBUG)
 					print_meal_summary("Failed");
-				cleanup_resources(CLEANUP_CHILD);
-				exit(1);
+				return (NULL);
 			}
 			return (NULL);
 		}

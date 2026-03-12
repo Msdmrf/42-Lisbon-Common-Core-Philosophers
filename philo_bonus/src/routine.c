@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:30 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/12 13:47:34 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/12 14:19:19 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,22 +43,31 @@ static void	philo_think(t_philo *philo)
 	}
 }
 
-static void	init_philosopher(t_philo *philo, t_data *data, int id)
+bool	init_philosopher(t_philo *philo, t_data *data, int id)
 {
 	philo->id = id;
 	philo->pid = getpid();
 	philo->meals_eaten = 0;
 	philo->last_meal_time = data->start_time;
 	philo->data = data;
-	pthread_create(&philo->monitor_thread, NULL, monitor_routine, philo);
-	pthread_detach(philo->monitor_thread);
+	philo->monitor_created = false;
+	philo->monitor_should_stop = false;
+	if (pthread_create(&philo->monitor_thread, NULL,
+			monitor_routine, philo) != 0)
+		return (false);
+	philo->monitor_created = true;
+	return (true);
 }
 
 void	philo_process(t_data *data, int id)
 {
 	t_philo	philo;
 
-	init_philosopher(&philo, data, id);
+	if (!init_philosopher(&philo, data, id))
+	{
+		cleanup_resources(CLEANUP_CHILD);
+		exit(1);
+	}
 	if (id % 2 == 0)
 		usleep(1000);
 	while (!is_simulation_stopped(data))
@@ -70,11 +79,21 @@ void	philo_process(t_data *data, int id)
 		if (data->must_eat_count != -1
 			&& philo.meals_eaten >= data->must_eat_count)
 		{
+			if (philo.monitor_created)
+			{
+				philo.monitor_should_stop = true;
+				pthread_join(philo.monitor_thread, NULL);
+			}
 			cleanup_resources(CLEANUP_CHILD);
 			exit(0);
 		}
 		philo_sleep(&philo);
 		philo_think(&philo);
+	}
+	if (philo.monitor_created)
+	{
+		philo.monitor_should_stop = true;
+		pthread_join(philo.monitor_thread, NULL);
 	}
 	cleanup_resources(CLEANUP_CHILD);
 	exit(0);
