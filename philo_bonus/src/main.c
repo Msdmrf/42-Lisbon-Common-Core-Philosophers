@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:05 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/11 12:49:57 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/12 13:47:05 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ int	main(int argc, char **argv)
 	singleton()->data = data;
 	singleton()->pids = pids;
 	if (!pids)
-		return (cleanup_and_exit(), 1);
+		return (cleanup_resources(CLEANUP_PARENT), 1);
 	setup_signals(SIG_SETUP);
 	singleton()->data->start_time = get_time_ms();
 	start_processes();
 	wait_processes();
-	cleanup_and_exit();
+	cleanup_resources(CLEANUP_PARENT);
 	return (0);
 }

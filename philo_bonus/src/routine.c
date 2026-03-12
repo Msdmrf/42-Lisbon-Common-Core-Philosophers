@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:30 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/11 20:09:29 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/12 13:47:34 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,12 @@ void	philo_process(t_data *data, int id)
 		if (data->must_eat_count != -1
 			&& philo.meals_eaten >= data->must_eat_count)
 		{
+			cleanup_resources(CLEANUP_CHILD);
 			exit(0);
 		}
 		philo_sleep(&philo);
 		philo_think(&philo);
 	}
+	cleanup_resources(CLEANUP_CHILD);
 	exit(0);
 }

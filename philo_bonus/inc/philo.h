@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:30:55 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/11 20:54:22 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/12 13:45:52 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,19 @@
 // Enable Debug Mode
 # define PHILO_DEBUG	0
 
-// Signal Modes
-# define SIG_SETUP		1
-# define SIG_RESET		2
-
 // Semaphore Names
 # define SEM_FORKS		"/philo_forks"
 # define SEM_PRINT		"/philo_print"
 # define SEM_STOP		"/philo_stop"
 # define SEM_DEATH		"/philo_death"
+
+// Signal Modes
+# define SIG_SETUP		1
+# define SIG_RESET		2
+
+// Cleanup Modes
+# define CLEANUP_PARENT 0
+# define CLEANUP_CHILD  1
 
 // Data Structure
 typedef struct s_data
@@ -96,8 +100,8 @@ void			stop_simulation(t_data *data);
 void			*monitor_routine(void *arg);
 
 // cleanup.c
-void			cleanup_and_exit(void);
 void			kill_all_processes(void);
+void			cleanup_resources(int mode);
 
 // signals.c
 t_singleton		*singleton(void);

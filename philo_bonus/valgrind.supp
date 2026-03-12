@@ -1,24 +1,4 @@
 {
-	glibc_semaphore_tsearch
-	Memcheck:Leak
-	match-leak-kinds: reachable,possible
-	fun:malloc
-	fun:tsearch
-	...
-	fun:sem_open*
-}
-
-{
-	glibc_semaphore_mapping
-	Memcheck:Leak
-	match-leak-kinds: reachable,possible
-	fun:malloc
-	fun:__sem_check_add_mapping
-	...
-	fun:sem_open*
-}
-
-{
 	pthread_tls
 	Memcheck:Leak
 	match-leak-kinds: reachable,possible
