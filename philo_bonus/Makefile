@@ -6,7 +6,7 @@
 #    By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/17 15:30:49 by migusant          #+#    #+#              #
-#    Updated: 2026/03/12 15:36:53 by migusant         ###   ########.fr        #
+#    Updated: 2026/03/12 22:23:29 by migusant         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -127,32 +127,37 @@ $(NAME): $(OBJ)
 	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
 	@echo "$(GREEN)$(NAME) successfully created!$(RESET)"
 
+TIMEOUT_TEST = 60
+TIMEOUT_VALGRIND = 30
+
 t: all
-	@timeout --foreground --signal=SIGINT 60 ./$(NAME) $(ARGS); \
+	@timeout --foreground --signal=SIGINT $(TIMEOUT_TEST) ./$(NAME) $(ARGS); \
 	result=$$?; \
 	if [ $$result -eq 124 ]; then \
-		echo "(Timeout [60s]: $(ARGS))"; \
+		echo "(Timeout [$(TIMEOUT_TEST)s]: $(ARGS))"; \
 	fi
 
 v: all
 	@mkdir -p $(LOG_DIR)
-	@clear && timeout --foreground --signal=SIGINT 60 valgrind --leak-check=full \
-		--show-leak-kinds=all --track-origins=yes \
+	@clear && timeout --foreground --signal=SIGINT $(TIMEOUT_VALGRIND) \
+		valgrind --leak-check=full --show-leak-kinds=all \
+		--track-origins=yes \
 		--log-file=$(LOG_DIR)valgrind.log -s ./$(NAME) $(ARGS); \
 	result=$$?; \
 	if [ $$result -eq 124 ]; then \
-		echo "\n(Timeout [60s]: $(ARGS))\n"; \
+		echo "\n(Timeout [$(TIMEOUT_VALGRIND)s]: $(ARGS))\n"; \
 	fi
 	@cat $(LOG_DIR)valgrind.log
 
 vp: all
 	@mkdir -p $(LOG_DIR)
-	@clear && timeout --foreground --signal=SIGINT 60 valgrind --leak-check=full \
-		--show-leak-kinds=all --track-origins=yes \
+	@clear && timeout --foreground --signal=SIGINT $(TIMEOUT_VALGRIND) \
+		valgrind --leak-check=full --show-leak-kinds=all \
+		--track-origins=yes \
 		--log-file=$(LOG_DIR)valgrind_%p.log -s ./$(NAME) $(ARGS); \
 	result=$$?; \
 	if [ $$result -eq 124 ]; then \
-		echo "\n(Timeout [60s]: $(ARGS))\n"; \
+		echo "\n(Timeout [$(TIMEOUT_VALGRIND)s]: $(ARGS))\n"; \
 	fi
 	@cat $(LOG_DIR)valgrind_*.log
 

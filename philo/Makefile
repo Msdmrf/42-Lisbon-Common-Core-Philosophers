@@ -6,7 +6,7 @@
 #    By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/02 10:20:02 by migusant          #+#    #+#              #
-#    Updated: 2026/03/10 20:02:25 by migusant         ###   ########.fr        #
+#    Updated: 2026/03/12 22:23:34 by migusant         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,8 +19,8 @@ NAME = philo
 # *** Evaluation Sheet Tests: *** #
 
 #ARGS = 1 800 200 200
-#ARGS = 5 800 200 200
-ARGS = 5 800 200 200 7
+ARGS = 5 800 200 200
+#ARGS = 5 800 200 200 7
 #ARGS = 4 410 200 200
 #ARGS = 4 310 200 100
 #ARGS = 2 410 200 200
@@ -127,26 +127,39 @@ $(NAME): $(OBJ)
 	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
 	@echo "$(GREEN)$(NAME) successfully created!$(RESET)"
 
+TIMEOUT_TEST = 60
+TIMEOUT_VALGRIND = 30
+
 t: all
-	@timeout --foreground 60 ./$(NAME) $(ARGS); \
+	@timeout --foreground $(TIMEOUT_TEST) ./$(NAME) $(ARGS); \
 	result=$$?; \
 	if [ $$result -eq 124 ]; then \
-		echo "(Timeout [60s]: $(ARGS))"; \
+		echo "(Timeout [$(TIMEOUT_TEST)s]: $(ARGS))"; \
 	fi
 
 v: all
 	@mkdir -p $(LOG_DIR)
-	@clear && valgrind --leak-check=full --show-leak-kinds=all \
+	@clear && timeout --foreground $(TIMEOUT_VALGRIND) \
+		valgrind --leak-check=full --show-leak-kinds=all \
 		--track-origins=yes --log-file=$(LOG_DIR)valgrind.log \
-		-s ./$(NAME) $(ARGS)
-	@echo && cat $(LOG_DIR)valgrind.log
+		-s ./$(NAME) $(ARGS); \
+	result=$$?; \
+	if [ $$result -eq 124 ]; then \
+		echo "\n(Timeout [$(TIMEOUT_VALGRIND)s]: $(ARGS))\n"; \
+	fi
+	@cat $(LOG_DIR)valgrind.log
 
 h: all
 	@mkdir -p $(LOG_DIR)
-	@clear && valgrind --tool=helgrind --history-level=approx \
+	@clear && timeout --foreground $(TIMEOUT_VALGRIND) \
+		valgrind --tool=helgrind --history-level=approx \
 		--conflict-cache-size=10000000 --log-file=$(LOG_DIR)helgrind.log \
-		-s ./$(NAME) $(ARGS)
-	@echo && cat $(LOG_DIR)helgrind.log
+		-s ./$(NAME) $(ARGS); \
+	result=$$?; \
+	if [ $$result -eq 124 ]; then \
+		echo "\n(Timeout [$(TIMEOUT_VALGRIND)s]: $(ARGS))\n"; \
+	fi
+	@cat $(LOG_DIR)helgrind.log
 
 # **************************************************************************** #
 #                            COMPILATION RULES                                 #
