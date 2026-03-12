@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:30 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/12 14:19:19 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/12 14:48:36 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	philo_process(t_data *data, int id)
 {
 	t_philo	philo;
 
+	setup_signals(SIG_CHILD);
 	if (!init_philosopher(&philo, data, id))
 	{
 		cleanup_resources(CLEANUP_CHILD);

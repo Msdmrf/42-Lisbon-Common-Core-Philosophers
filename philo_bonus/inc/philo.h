@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:30:55 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/12 14:12:57 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/12 14:47:53 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@
 // Signal Modes
 # define SIG_SETUP		1
 # define SIG_RESET		2
+# define SIG_CHILD		3
 
 // Cleanup Modes
 # define CLEANUP_PARENT 0

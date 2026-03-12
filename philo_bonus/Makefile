@@ -6,7 +6,7 @@
 #    By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/17 15:30:49 by migusant          #+#    #+#              #
-#    Updated: 2026/03/12 14:22:00 by migusant         ###   ########.fr        #
+#    Updated: 2026/03/12 15:36:53 by migusant         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,8 +19,8 @@ NAME = philo_bonus
 # *** Evaluation Sheet Tests: *** #
 
 #ARGS = 1 800 200 200
-#ARGS = 5 800 200 200
-ARGS = 5 800 200 200 7
+ARGS = 5 800 200 200
+#ARGS = 5 800 200 200 7
 #ARGS = 4 410 200 200
 #ARGS = 4 310 200 100
 #ARGS = 2 410 200 200
@@ -128,7 +128,7 @@ $(NAME): $(OBJ)
 	@echo "$(GREEN)$(NAME) successfully created!$(RESET)"
 
 t: all
-	@timeout --foreground 60 ./$(NAME) $(ARGS); \
+	@timeout --foreground --signal=SIGINT 60 ./$(NAME) $(ARGS); \
 	result=$$?; \
 	if [ $$result -eq 124 ]; then \
 		echo "(Timeout [60s]: $(ARGS))"; \
@@ -136,17 +136,25 @@ t: all
 
 v: all
 	@mkdir -p $(LOG_DIR)
-	@clear && valgrind --leak-check=full --show-leak-kinds=all \
-		--track-origins=yes --track-fds=yes \
-		--log-file=$(LOG_DIR)valgrind.log -s ./$(NAME) $(ARGS)
-	@echo && cat $(LOG_DIR)valgrind.log
+	@clear && timeout --foreground --signal=SIGINT 60 valgrind --leak-check=full \
+		--show-leak-kinds=all --track-origins=yes \
+		--log-file=$(LOG_DIR)valgrind.log -s ./$(NAME) $(ARGS); \
+	result=$$?; \
+	if [ $$result -eq 124 ]; then \
+		echo "\n(Timeout [60s]: $(ARGS))\n"; \
+	fi
+	@cat $(LOG_DIR)valgrind.log
 
 vp: all
 	@mkdir -p $(LOG_DIR)
-	@clear && valgrind --leak-check=full --show-leak-kinds=all \
-		--track-origins=yes --track-fds=yes --trace-children=yes \
-		--log-file=$(LOG_DIR)valgrind_%p.log -s ./$(NAME) $(ARGS)
-	@echo && cat $(LOG_DIR)valgrind_*.log
+	@clear && timeout --foreground --signal=SIGINT 60 valgrind --leak-check=full \
+		--show-leak-kinds=all --track-origins=yes \
+		--log-file=$(LOG_DIR)valgrind_%p.log -s ./$(NAME) $(ARGS); \
+	result=$$?; \
+	if [ $$result -eq 124 ]; then \
+		echo "\n(Timeout [60s]: $(ARGS))\n"; \
+	fi
+	@cat $(LOG_DIR)valgrind_*.log
 
 # **************************************************************************** #
 #                            COMPILATION RULES                                 #
