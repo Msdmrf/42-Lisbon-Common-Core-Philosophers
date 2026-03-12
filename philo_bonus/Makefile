@@ -6,7 +6,7 @@
 #    By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/17 15:30:49 by migusant          #+#    #+#              #
-#    Updated: 2026/03/11 18:28:00 by migusant         ###   ########.fr        #
+#    Updated: 2026/03/12 12:51:07 by migusant         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -138,6 +138,7 @@ v: all
 	@mkdir -p $(LOG_DIR)
 	@clear && valgrind --leak-check=full --show-leak-kinds=all \
 		--track-origins=yes --track-fds=yes \
+		--suppressions=valgrind.supp \
 		--log-file=$(LOG_DIR)valgrind.log -s ./$(NAME) $(ARGS)
 	@echo && cat $(LOG_DIR)valgrind.log
 
@@ -145,6 +146,7 @@ vp: all
 	@mkdir -p $(LOG_DIR)
 	@clear && valgrind --leak-check=full --show-leak-kinds=all \
 		--track-origins=yes --track-fds=yes --trace-children=yes \
+		--suppressions=valgrind.supp \
 		--log-file=$(LOG_DIR)valgrind_%p.log -s ./$(NAME) $(ARGS)
 	@echo && cat $(LOG_DIR)valgrind_*.log
 
