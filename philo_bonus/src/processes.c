@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:25 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/13 16:37:32 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/13 19:11:47 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,26 @@ void	start_processes(void)
 	}
 }
 
+static bool	handle_process_exit(int status)
+{
+	if (WIFEXITED(status) && WEXITSTATUS(status) == 1)
+	{
+		stop_simulation(singleton()->data);
+		kill_all_processes();
+		return (true);
+	}
+	return (false);
+}
+
+static void	wait_remaining_processes(int remaining)
+{
+	while (remaining > 0)
+	{
+		waitpid(-1, NULL, 0);
+		remaining--;
+	}
+}
+
 void	wait_processes(void)
 {
 	pid_t	pid;
@@ -56,16 +76,10 @@ void	wait_processes(void)
 		if (pid == -1)
 			break ;
 		processes_remaining--;
-		if (WIFEXITED(status) && WEXITSTATUS(status) == 1)
+		if (handle_process_exit(status))
 		{
-			stop_simulation(singleton()->data);
-			kill_all_processes();
 			process_interrupted = true;
-			while (processes_remaining > 0)
-			{
-				waitpid(-1, NULL, 0);
-				processes_remaining--;
-			}
+			wait_remaining_processes(processes_remaining);
 			return ;
 		}
 	}

@@ -1,49 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   routine.c                                          :+:      :+:    :+:   */
+/*   routine.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:30 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/13 16:37:16 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/13 19:31:34 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-static void	philo_eat(t_philo *philo)
-{
-	long	current_time;
-
-	current_time = get_time_ms();
-	philo->last_meal_time = current_time;
-	print_status(philo, "is eating");
-	philo->meals_eaten++;
-	precise_sleep(philo->data->time_to_eat);
-}
-
-static void	philo_sleep(t_philo *philo)
-{
-	print_status(philo, "is sleeping");
-	precise_sleep(philo->data->time_to_sleep);
-}
-
-static void	philo_think(t_philo *philo)
-{
-	long	think_time;
-
-	print_status(philo, "is thinking");
-	if (philo->data->philo_count % 2 == 1)
-	{
-		think_time = philo->data->time_to_eat * 2
-			- philo->data->time_to_sleep;
-		if (think_time > 0 && think_time < philo->data->time_to_die)
-			usleep(think_time * 1000);
-	}
-}
-
-bool	init_philosopher(t_philo *philo, t_data *data, int id)
+static bool	philo_init(t_philo *philo, t_data *data, int id)
 {
 	philo->id = id;
 	philo->meals_eaten = 0;
@@ -59,12 +28,38 @@ bool	init_philosopher(t_philo *philo, t_data *data, int id)
 	return (true);
 }
 
+static void	stop_monitor(t_philo *philo)
+{
+	if (philo->monitor_created)
+	{
+		philo->monitor_should_stop = true;
+		pthread_join(philo->monitor_thread, NULL);
+	}
+}
+
+static bool	philo_should_exit(t_philo *philo)
+{
+	if (philo->data->must_eat_count == -1)
+		return (false);
+	return (philo->meals_eaten >= philo->data->must_eat_count);
+}
+
+static void	philo_cycle(t_philo *philo)
+{
+	if (take_forks(philo))
+		return ;
+	philo_eat(philo);
+	release_forks(philo);
+	philo_sleep(philo);
+	philo_think(philo);
+}
+
 void	philo_process(t_data *data, int id)
 {
 	t_philo	philo;
 
 	setup_signals(SIG_CHILD);
-	if (!init_philosopher(&philo, data, id))
+	if (!philo_init(&philo, data, id))
 	{
 		cleanup_resources(CLEANUP_CHILD);
 		exit(1);
@@ -73,29 +68,15 @@ void	philo_process(t_data *data, int id)
 		usleep(1000);
 	while (!is_simulation_stopped(data))
 	{
-		if (take_forks(&philo))
-			break ;
-		philo_eat(&philo);
-		release_forks(&philo);
-		if (data->must_eat_count != -1
-			&& philo.meals_eaten >= data->must_eat_count)
+		philo_cycle(&philo);
+		if (philo_should_exit(&philo))
 		{
-			if (philo.monitor_created)
-			{
-				philo.monitor_should_stop = true;
-				pthread_join(philo.monitor_thread, NULL);
-			}
+			stop_monitor(&philo);
 			cleanup_resources(CLEANUP_CHILD);
 			exit(0);
 		}
-		philo_sleep(&philo);
-		philo_think(&philo);
 	}
-	if (philo.monitor_created)
-	{
-		philo.monitor_should_stop = true;
-		pthread_join(philo.monitor_thread, NULL);
-	}
+	stop_monitor(&philo);
 	cleanup_resources(CLEANUP_CHILD);
 	if (philo.died)
 		exit(1);

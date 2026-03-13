@@ -6,7 +6,7 @@
 #    By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/17 15:30:49 by migusant          #+#    #+#              #
-#    Updated: 2026/03/13 15:03:29 by migusant         ###   ########.fr        #
+#    Updated: 2026/03/13 19:45:08 by migusant         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -109,7 +109,9 @@ RESET = \033[0m
 SRC = src/main.c \
 	src/parser.c \
 	src/init.c \
+	src/init_utils.c \
 	src/processes.c \
+	src/actions.c \
 	src/routine.c \
 	src/forks.c \
 	src/monitor.c \

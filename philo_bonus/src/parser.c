@@ -6,13 +6,13 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:15 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/11 11:40:57 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/13 19:41:46 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-static void	print_usage(void)
+static void	show_usage(void)
 {
 	printf("Usage: ./philo_bonus number_of_philosophers time_to_die ");
 	printf("time_to_eat time_to_sleep ");
@@ -91,7 +91,7 @@ t_data	*parse_args(int argc, char **argv)
 	t_data	*data;
 
 	if (argc < 5 || argc > 6)
-		return (print_usage(), NULL);
+		return (show_usage(), NULL);
 	data = malloc(sizeof(t_data));
 	if (!data)
 		return (NULL);

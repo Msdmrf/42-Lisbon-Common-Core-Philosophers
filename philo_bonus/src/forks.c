@@ -6,13 +6,13 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:35 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/13 14:49:55 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/13 19:25:28 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-static int	handle_single_philo(t_philo *philo)
+static int	handle_single_fork(t_philo *philo)
 {
 	sem_wait(philo->data->forks_sem);
 	print_status(philo, "has taken a fork");
@@ -22,10 +22,8 @@ static int	handle_single_philo(t_philo *philo)
 	return (1);
 }
 
-int	take_forks(t_philo *philo)
+static int	wait_for_first_fork(t_philo *philo)
 {
-	if (philo->data->philo_count == 1)
-		return (handle_single_philo(philo));
 	while (sem_trywait(philo->data->forks_sem) != 0)
 	{
 		if (is_simulation_stopped(philo->data))
@@ -38,6 +36,11 @@ int	take_forks(t_philo *philo)
 		return (1);
 	}
 	print_status(philo, "has taken a fork");
+	return (0);
+}
+
+static int	wait_for_second_fork(t_philo *philo)
+{
 	while (sem_trywait(philo->data->forks_sem) != 0)
 	{
 		if (is_simulation_stopped(philo->data))
@@ -54,6 +57,17 @@ int	take_forks(t_philo *philo)
 		return (1);
 	}
 	print_status(philo, "has taken a fork");
+	return (0);
+}
+
+int	take_forks(t_philo *philo)
+{
+	if (philo->data->philo_count == 1)
+		return (handle_single_fork(philo));
+	if (wait_for_first_fork(philo))
+		return (1);
+	if (wait_for_second_fork(philo))
+		return (1);
 	return (0);
 }
 

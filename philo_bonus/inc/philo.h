@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:30:55 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/13 16:49:26 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/13 19:44:50 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,21 @@ t_data			*parse_args(int argc, char **argv);
 bool			init_semaphores(t_data *data);
 pid_t			*init_pids(int count);
 
+// init_utils.c
+void			unlink_all_semaphores(void);
+bool			init_forks_sem(t_data *data);
+bool			init_print_sem(t_data *data);
+bool			init_stop_sem(t_data *data);
+bool			init_death_sem(t_data *data);
+
 // processes.c
 void			start_processes(void);
 void			wait_processes(void);
+
+// actions.c
+void			philo_eat(t_philo *philo);
+void			philo_sleep(t_philo *philo);
+void			philo_think(t_philo *philo);
 
 // routine.c
 void			philo_process(t_data *data, int id);
