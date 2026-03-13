@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 10:45:47 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/10 13:43:21 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/13 17:14:59 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static bool	check_all_ate(void)
 	{
 		stop_simulation();
 		if (PHILO_DEBUG)
-			print_meal_summary("Complete");
+			print_meal_summary("Completed");
 		return (true);
 	}
 	return (false);

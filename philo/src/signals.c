@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 09:18:48 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/12 22:37:18 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/13 17:13:50 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,12 @@ t_singleton	*singleton(void)
 
 static void	handle_interrupt(int sig)
 {
+	static volatile sig_atomic_t	handled = 0;
+
 	(void)sig;
+	if (handled)
+		return ;
+	handled = 1;
 	if (singleton()->data)
 	{
 		stop_simulation();
