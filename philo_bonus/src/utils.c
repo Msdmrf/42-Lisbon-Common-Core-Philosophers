@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:58 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/11 11:42:52 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/13 00:33:56 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,14 @@ void	print_status(t_philo *philo, char *status)
 	if (is_simulation_stopped(philo->data))
 		return ;
 	sem_wait(philo->data->print_sem);
-	if (!is_simulation_stopped(philo->data))
+	if (sem_trywait(philo->data->death_sem) == 0)
 	{
-		timestamp = get_elapsed_time(philo->data->start_time);
-		printf("%ld %d %s\n", timestamp, philo->id, status);
+		if (!is_simulation_stopped(philo->data))
+		{
+			timestamp = get_elapsed_time(philo->data->start_time);
+			printf("%ld %d %s\n", timestamp, philo->id, status);
+		}
+		sem_post(philo->data->death_sem);
 	}
 	sem_post(philo->data->print_sem);
 }
