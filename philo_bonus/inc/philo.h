@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:30:55 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/13 13:02:02 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/13 16:49:26 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ typedef struct s_data
 typedef struct s_philo
 {
 	int				id;
-	pid_t			pid;
 	long			last_meal_time;
 	int				meals_eaten;
 	bool			monitor_created;
@@ -116,6 +115,5 @@ long			get_time_ms(void);
 long			get_elapsed_time(long start_time);
 void			print_status(t_philo *philo, char *status);
 void			precise_sleep(long milliseconds);
-void			print_meal_summary(char *status);
 
 #endif

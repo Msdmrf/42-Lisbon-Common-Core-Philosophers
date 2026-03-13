@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:40 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/13 13:44:09 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/13 16:11:08 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	*monitor_routine(void *arg)
 					get_elapsed_time(philo->data->start_time), philo->id);
 				sem_post(philo->data->print_sem);
 				if (PHILO_DEBUG)
-					print_meal_summary("Failed");
+					printf("\n=== Simulation Failed ===\n");
 				return (NULL);
 			}
 			return (NULL);

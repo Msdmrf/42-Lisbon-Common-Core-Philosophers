@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:58 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/13 00:33:56 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/13 16:18:31 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,4 @@ void	precise_sleep(long ms)
 			break ;
 		usleep(500);
 	}
-}
-
-void	print_meal_summary(char *message)
-{
-	printf("\n=== Simulation %s ===\n", message);
-	printf("Process %d: %s\n", getpid(), message);
 }

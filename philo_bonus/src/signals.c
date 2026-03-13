@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:51 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/12 15:34:20 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/13 16:42:10 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,18 @@ t_singleton	*singleton(void)
 
 static void	handle_interrupt(int sig)
 {
+	static volatile sig_atomic_t	handled = 0;
+
 	(void)sig;
+	if (handled)
+		return ;
+	handled = 1;
 	if (singleton()->data)
 	{
 		stop_simulation(singleton()->data);
 		kill_all_processes();
 		if (PHILO_DEBUG)
-			print_meal_summary("Interrupted");
+			printf("\n=== Simulation Interrupted ===\n");
 	}
 }
 
@@ -54,8 +59,8 @@ void	setup_signals(int mode)
 	}
 	else if (mode == SIG_CHILD)
 	{
-		signal(SIGTERM, handle_sigterm);
 		signal(SIGINT, SIG_IGN);
 		signal(SIGQUIT, SIG_IGN);
+		signal(SIGTERM, handle_sigterm);
 	}
 }

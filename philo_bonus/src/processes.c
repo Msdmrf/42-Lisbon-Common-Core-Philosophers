@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:25 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/11 20:19:59 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/13 16:37:32 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,13 @@ void	start_processes(void)
 
 void	wait_processes(void)
 {
-	int		status;
 	pid_t	pid;
+	int		status;
 	int		processes_remaining;
+	bool	process_interrupted;
 
 	processes_remaining = singleton()->processes_created;
+	process_interrupted = false;
 	while (processes_remaining > 0)
 	{
 		pid = waitpid(-1, &status, 0);
@@ -58,6 +60,7 @@ void	wait_processes(void)
 		{
 			stop_simulation(singleton()->data);
 			kill_all_processes();
+			process_interrupted = true;
 			while (processes_remaining > 0)
 			{
 				waitpid(-1, NULL, 0);
@@ -66,4 +69,7 @@ void	wait_processes(void)
 			return ;
 		}
 	}
+	if (PHILO_DEBUG && processes_remaining == 0 && !process_interrupted
+		&& !is_simulation_stopped(singleton()->data))
+		printf("\n=== Simulation Completed ===\n");
 }

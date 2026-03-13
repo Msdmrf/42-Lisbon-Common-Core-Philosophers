@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:30 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/13 13:33:54 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/13 16:37:16 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ static void	philo_think(t_philo *philo)
 bool	init_philosopher(t_philo *philo, t_data *data, int id)
 {
 	philo->id = id;
-	philo->pid = getpid();
 	philo->meals_eaten = 0;
 	philo->last_meal_time = data->start_time;
 	philo->data = data;
