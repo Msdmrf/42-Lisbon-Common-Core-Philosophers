@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:35 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/11 20:08:41 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/13 14:49:55 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,27 @@ int	take_forks(t_philo *philo)
 {
 	if (philo->data->philo_count == 1)
 		return (handle_single_philo(philo));
-	sem_wait(philo->data->forks_sem);
+	while (sem_trywait(philo->data->forks_sem) != 0)
+	{
+		if (is_simulation_stopped(philo->data))
+			return (1);
+		usleep(100);
+	}
 	if (is_simulation_stopped(philo->data))
 	{
 		sem_post(philo->data->forks_sem);
 		return (1);
 	}
 	print_status(philo, "has taken a fork");
-	sem_wait(philo->data->forks_sem);
+	while (sem_trywait(philo->data->forks_sem) != 0)
+	{
+		if (is_simulation_stopped(philo->data))
+		{
+			sem_post(philo->data->forks_sem);
+			return (1);
+		}
+		usleep(100);
+	}
 	if (is_simulation_stopped(philo->data))
 	{
 		sem_post(philo->data->forks_sem);

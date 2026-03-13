@@ -6,7 +6,7 @@
 #    By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/02 10:20:02 by migusant          #+#    #+#              #
-#    Updated: 2026/03/12 22:23:34 by migusant         ###   ########.fr        #
+#    Updated: 2026/03/13 15:03:16 by migusant         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,11 +16,14 @@
 
 NAME = philo
 
+TIMEOUT_TEST = 60
+TIMEOUT_VALGRIND = 30
+
 # *** Evaluation Sheet Tests: *** #
 
 #ARGS = 1 800 200 200
-ARGS = 5 800 200 200
-#ARGS = 5 800 200 200 7
+#ARGS = 5 800 200 200
+ARGS = 5 800 200 200 7
 #ARGS = 4 410 200 200
 #ARGS = 4 310 200 100
 #ARGS = 2 410 200 200
@@ -127,11 +130,8 @@ $(NAME): $(OBJ)
 	@$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
 	@echo "$(GREEN)$(NAME) successfully created!$(RESET)"
 
-TIMEOUT_TEST = 60
-TIMEOUT_VALGRIND = 30
-
 t: all
-	@timeout --foreground $(TIMEOUT_TEST) ./$(NAME) $(ARGS); \
+	@clear && timeout --foreground $(TIMEOUT_TEST) ./$(NAME) $(ARGS); \
 	result=$$?; \
 	if [ $$result -eq 124 ]; then \
 		echo "(Timeout [$(TIMEOUT_TEST)s]: $(ARGS))"; \
