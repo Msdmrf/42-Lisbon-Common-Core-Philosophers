@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:40 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/12 14:18:44 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/13 00:12:41 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ void	*monitor_routine(void *arg)
 				sem_post(philo->data->print_sem);
 				if (PHILO_DEBUG)
 					print_meal_summary("Failed");
-				return (NULL);
+				cleanup_resources(CLEANUP_CHILD);
+				exit(1);
 			}
 			return (NULL);
 		}
