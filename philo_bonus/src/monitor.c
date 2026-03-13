@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:40 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/13 00:12:41 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/13 13:44:09 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	*monitor_routine(void *arg)
 		{
 			if (sem_trywait(philo->data->death_sem) == 0)
 			{
+				philo->died = true;
 				stop_simulation(philo->data);
 				sem_wait(philo->data->print_sem);
 				printf("%ld %d died\n",
@@ -50,8 +51,7 @@ void	*monitor_routine(void *arg)
 				sem_post(philo->data->print_sem);
 				if (PHILO_DEBUG)
 					print_meal_summary("Failed");
-				cleanup_resources(CLEANUP_CHILD);
-				exit(1);
+				return (NULL);
 			}
 			return (NULL);
 		}

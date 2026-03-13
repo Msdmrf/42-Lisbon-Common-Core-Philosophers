@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:30:55 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/12 14:47:53 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/13 13:02:02 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ typedef struct s_philo
 	int				meals_eaten;
 	bool			monitor_created;
 	bool			monitor_should_stop;
+	bool			died;
 	pthread_t		monitor_thread;
 	t_data			*data;
 }	t_philo;

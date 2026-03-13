@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:30 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/12 14:48:36 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/13 13:33:54 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ bool	init_philosopher(t_philo *philo, t_data *data, int id)
 	philo->data = data;
 	philo->monitor_created = false;
 	philo->monitor_should_stop = false;
+	philo->died = false;
 	if (pthread_create(&philo->monitor_thread, NULL,
 			monitor_routine, philo) != 0)
 		return (false);
@@ -97,5 +98,7 @@ void	philo_process(t_data *data, int id)
 		pthread_join(philo.monitor_thread, NULL);
 	}
 	cleanup_resources(CLEANUP_CHILD);
+	if (philo.died)
+		exit(1);
 	exit(0);
 }
