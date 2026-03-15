@@ -6,13 +6,13 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:40 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/15 11:59:37 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/15 23:00:50 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo_bonus.h"
 
-bool	is_simulation_stopped(t_data *data)
+bool	is_sim_stopped(t_data *data)
 {
 	bool	stopped;
 
@@ -22,7 +22,7 @@ bool	is_simulation_stopped(t_data *data)
 	return (stopped);
 }
 
-void	stop_simulation(t_data *data)
+void	sim_stop(t_data *data)
 {
 	sem_wait(data->stop_sem);
 	data->simulation_stop = true;
@@ -34,7 +34,7 @@ static bool	handle_philosopher_death(t_philo *philo)
 	if (sem_trywait(philo->data->death_sem) != 0)
 		return (false);
 	philo->died = true;
-	stop_simulation(philo->data);
+	sim_stop(philo->data);
 	sem_wait(philo->data->print_sem);
 	printf("%ld %d died\n",
 		get_elapsed_time(philo->data->start_time), philo->id);
@@ -50,7 +50,7 @@ void	*monitor_routine(void *arg)
 	long	time_since_meal;
 
 	philo = (t_philo *)arg;
-	while (!is_simulation_stopped(philo->data) && !philo->monitor_should_stop)
+	while (!is_sim_stopped(philo->data) && !philo->monitor_should_stop)
 	{
 		usleep(500);
 		time_since_meal = get_time_ms() - philo->last_meal_time;

@@ -66,7 +66,7 @@ void	philo_process(t_data *data, int id)
 	}
 	if (id % 2 == 0)
 		usleep(1000);
-	while (!is_simulation_stopped(data))
+	while (!is_sim_stopped(data))
 	{
 		philo_cycle(&philo);
 		if (philo_should_exit(&philo))

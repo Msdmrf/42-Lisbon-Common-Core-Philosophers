@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:35 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/15 11:59:32 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/15 23:00:14 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	handle_single_fork(t_philo *philo)
 {
 	sem_wait(philo->data->forks_sem);
 	print_status(philo, "has taken a fork");
-	while (!is_simulation_stopped(philo->data))
+	while (!is_sim_stopped(philo->data))
 		usleep(1000);
 	sem_post(philo->data->forks_sem);
 	return (1);
@@ -26,11 +26,11 @@ static int	wait_for_first_fork(t_philo *philo)
 {
 	while (sem_trywait(philo->data->forks_sem) != 0)
 	{
-		if (is_simulation_stopped(philo->data))
+		if (is_sim_stopped(philo->data))
 			return (1);
 		usleep(100);
 	}
-	if (is_simulation_stopped(philo->data))
+	if (is_sim_stopped(philo->data))
 	{
 		sem_post(philo->data->forks_sem);
 		return (1);
@@ -43,14 +43,14 @@ static int	wait_for_second_fork(t_philo *philo)
 {
 	while (sem_trywait(philo->data->forks_sem) != 0)
 	{
-		if (is_simulation_stopped(philo->data))
+		if (is_sim_stopped(philo->data))
 		{
 			sem_post(philo->data->forks_sem);
 			return (1);
 		}
 		usleep(100);
 	}
-	if (is_simulation_stopped(philo->data))
+	if (is_sim_stopped(philo->data))
 	{
 		sem_post(philo->data->forks_sem);
 		sem_post(philo->data->forks_sem);

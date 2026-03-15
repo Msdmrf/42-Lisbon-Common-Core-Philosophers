@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:25 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/15 11:59:22 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/15 23:00:50 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	start_processes(void)
 		pid = fork();
 		if (pid == -1)
 		{
-			stop_simulation(singleton()->data);
+			sim_stop(singleton()->data);
 			return (kill_all_processes());
 		}
 		else if (pid == 0)
@@ -45,7 +45,7 @@ static bool	handle_process_exit(int status)
 {
 	if (WIFEXITED(status) && WEXITSTATUS(status) == 1)
 	{
-		stop_simulation(singleton()->data);
+		sim_stop(singleton()->data);
 		kill_all_processes();
 		return (true);
 	}
@@ -84,6 +84,6 @@ void	wait_processes(void)
 		}
 	}
 	if (PHILO_DEBUG && processes_remaining == 0 && !process_interrupted
-		&& !is_simulation_stopped(singleton()->data))
+		&& !is_sim_stopped(singleton()->data))
 		printf("\n=== Simulation Completed ===\n");
 }

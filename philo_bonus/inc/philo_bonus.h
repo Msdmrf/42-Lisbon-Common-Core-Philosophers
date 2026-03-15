@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:30:55 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/15 11:58:30 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/15 23:04:30 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,8 @@ int				take_forks(t_philo *philo);
 void			release_forks(t_philo *philo);
 
 // monitor.c
-bool			is_simulation_stopped(t_data *data);
-void			stop_simulation(t_data *data);
+bool			is_sim_stopped(t_data *data);
+void			sim_stop(t_data *data);
 void			*monitor_routine(void *arg);
 
 // cleanup.c
@@ -126,6 +126,6 @@ void			setup_signals(int mode);
 long			get_time_ms(void);
 long			get_elapsed_time(long start_time);
 void			print_status(t_philo *philo, char *status);
-void			precise_sleep(long milliseconds);
+void			precise_sleep(long ms);
 
 #endif
