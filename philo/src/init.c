@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 09:24:43 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/10 15:07:48 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/15 18:33:42 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	cleanup_partial_philos(t_philo *philos, int count)
 	i = 0;
 	while (i < count)
 	{
-		pthread_mutex_destroy(&philos[i].meal_mutex);
+		pthread_mutex_destroy(&philos[i].state_mutex);
 		i++;
 	}
 	free(philos);
@@ -65,7 +65,7 @@ t_philo	*init_philos(t_data *data, pthread_mutex_t *fork_mutexes)
 		philos[i].data = data;
 		philos[i].right_fork_mutex = &fork_mutexes[(i + 1) % data->philo_count];
 		philos[i].left_fork_mutex = &fork_mutexes[i];
-		if (pthread_mutex_init(&philos[i].meal_mutex, NULL) != 0)
+		if (pthread_mutex_init(&philos[i].state_mutex, NULL) != 0)
 		{
 			cleanup_partial_philos(philos, i);
 			return (NULL);

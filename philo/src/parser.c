@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 10:21:54 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/11 11:05:40 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/15 18:41:28 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,12 +105,12 @@ t_data	*parse_args(int argc, char **argv)
 		data->must_eat_count = -1;
 	data->threads_created = 0;
 	data->start_time = 0;
-	data->simulation_stop = false;
+	data->sim_stop = false;
 	if (!validate_data(data))
 		return (free(data), NULL);
-	if (pthread_mutex_init(&data->stop_mutex, NULL) != 0)
+	if (pthread_mutex_init(&data->sim_stop_mutex, NULL) != 0)
 		return (free(data), NULL);
 	if (pthread_mutex_init(&data->print_mutex, NULL) != 0)
-		return (pthread_mutex_destroy(&data->stop_mutex), free(data), NULL);
+		return (pthread_mutex_destroy(&data->sim_stop_mutex), free(data), NULL);
 	return (data);
 }

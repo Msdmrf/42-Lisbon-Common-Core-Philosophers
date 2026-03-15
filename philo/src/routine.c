@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 10:45:26 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/11 10:39:50 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/15 19:33:41 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ static long	calculate_stagger_delay(t_philo *philo)
 static void	philo_eat(t_philo *philo)
 {
 	print_status(philo, "is eating");
-	pthread_mutex_lock(&philo->meal_mutex);
+	pthread_mutex_lock(&philo->state_mutex);
 	philo->meals_eaten++;
-	pthread_mutex_unlock(&philo->meal_mutex);
+	pthread_mutex_unlock(&philo->state_mutex);
 	precise_sleep(philo->data->time_to_eat);
 }
 
@@ -62,7 +62,7 @@ static void	philo_think(t_philo *philo)
 		think_time = philo->data->time_to_eat * 2
 			- philo->data->time_to_sleep;
 		if (think_time > 0 && think_time < philo->data->time_to_die)
-			usleep(think_time * 1000);
+			precise_sleep(think_time);
 	}
 }
 
@@ -75,7 +75,7 @@ void	*philo_routine(void *arg)
 	stagger_ms = calculate_stagger_delay(philo);
 	if (stagger_ms > 0)
 		usleep(stagger_ms);
-	while (!is_simulation_stopped())
+	while (!is_sim_stopped())
 	{
 		if (take_forks(philo))
 			break ;

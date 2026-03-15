@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 09:06:17 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/09 20:42:15 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/15 18:34:59 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ void	print_status(t_philo *philo, char *status)
 {
 	long	timestamp;
 
-	if (is_simulation_stopped())
+	if (is_sim_stopped())
 		return ;
 	pthread_mutex_lock(&philo->data->print_mutex);
-	if (!is_simulation_stopped())
+	if (!is_sim_stopped())
 	{
 		timestamp = get_elapsed_time(philo->data->start_time);
 		printf("%ld %d %s\n", timestamp, philo->id, status);
@@ -64,11 +64,11 @@ void	print_meal_summary(char *message)
 	i = 0;
 	while (i < singleton()->data->philo_count)
 	{
-		pthread_mutex_lock(&singleton()->philos[i].meal_mutex);
+		pthread_mutex_lock(&singleton()->philos[i].state_mutex);
 		printf("Philosopher %d ate %d times\n",
 			singleton()->philos[i].id,
 			singleton()->philos[i].meals_eaten);
-		pthread_mutex_unlock(&singleton()->philos[i].meal_mutex);
+		pthread_mutex_unlock(&singleton()->philos[i].state_mutex);
 		i++;
 	}
 	pthread_mutex_unlock(&singleton()->data->print_mutex);

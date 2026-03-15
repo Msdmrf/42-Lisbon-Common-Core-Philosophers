@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/09 09:18:48 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/13 17:13:50 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/15 19:01:00 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	handle_interrupt(int sig)
 	handled = 1;
 	if (singleton()->data)
 	{
-		stop_simulation();
+		sim_stop();
 		if (PHILO_DEBUG)
 			print_meal_summary("Interrupted");
 	}

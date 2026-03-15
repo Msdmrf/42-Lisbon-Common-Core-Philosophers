@@ -6,27 +6,27 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 10:45:47 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/13 17:14:59 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/15 19:01:00 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo.h"
 
-bool	is_simulation_stopped(void)
+bool	is_sim_stopped(void)
 {
 	bool	stopped;
 
-	pthread_mutex_lock(&singleton()->data->stop_mutex);
-	stopped = singleton()->data->simulation_stop;
-	pthread_mutex_unlock(&singleton()->data->stop_mutex);
+	pthread_mutex_lock(&singleton()->data->sim_stop_mutex);
+	stopped = singleton()->data->sim_stop;
+	pthread_mutex_unlock(&singleton()->data->sim_stop_mutex);
 	return (stopped);
 }
 
-void	stop_simulation(void)
+void	sim_stop(void)
 {
-	pthread_mutex_lock(&singleton()->data->stop_mutex);
-	singleton()->data->simulation_stop = true;
-	pthread_mutex_unlock(&singleton()->data->stop_mutex);
+	pthread_mutex_lock(&singleton()->data->sim_stop_mutex);
+	singleton()->data->sim_stop = true;
+	pthread_mutex_unlock(&singleton()->data->sim_stop_mutex);
 }
 
 static bool	check_deaths(void)
@@ -38,21 +38,21 @@ static bool	check_deaths(void)
 	i = 0;
 	while (i < singleton()->data->philo_count)
 	{
-		pthread_mutex_lock(&singleton()->philos[i].meal_mutex);
+		pthread_mutex_lock(&singleton()->philos[i].state_mutex);
 		if (current_time >= singleton()->philos[i].time_to_live)
 		{
 			pthread_mutex_lock(&singleton()->data->print_mutex);
-			stop_simulation();
+			sim_stop();
 			printf("%ld %d died\n",
 				get_elapsed_time(singleton()->data->start_time),
 				singleton()->philos[i].id);
 			pthread_mutex_unlock(&singleton()->data->print_mutex);
-			pthread_mutex_unlock(&singleton()->philos[i].meal_mutex);
+			pthread_mutex_unlock(&singleton()->philos[i].state_mutex);
 			if (PHILO_DEBUG)
 				print_meal_summary("Failed");
 			return (true);
 		}
-		pthread_mutex_unlock(&singleton()->philos[i].meal_mutex);
+		pthread_mutex_unlock(&singleton()->philos[i].state_mutex);
 		i++;
 	}
 	return (false);
@@ -69,16 +69,16 @@ static bool	check_all_ate(void)
 	i = 0;
 	while (i < singleton()->data->philo_count)
 	{
-		pthread_mutex_lock(&singleton()->philos[i].meal_mutex);
+		pthread_mutex_lock(&singleton()->philos[i].state_mutex);
 		if (singleton()->philos[i].meals_eaten
 			>= singleton()->data->must_eat_count)
 			satisfied_count++;
-		pthread_mutex_unlock(&singleton()->philos[i].meal_mutex);
+		pthread_mutex_unlock(&singleton()->philos[i].state_mutex);
 		i++;
 	}
 	if (satisfied_count == singleton()->data->philo_count)
 	{
-		stop_simulation();
+		sim_stop();
 		if (PHILO_DEBUG)
 			print_meal_summary("Completed");
 		return (true);
@@ -88,7 +88,7 @@ static bool	check_all_ate(void)
 
 void	monitor_simulation(void)
 {
-	while (!is_simulation_stopped())
+	while (!is_sim_stopped())
 	{
 		if (check_deaths())
 			break ;
