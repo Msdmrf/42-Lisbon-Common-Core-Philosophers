@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 10:20:50 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/11 11:13:17 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/15 19:01:00 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ typedef struct s_data
 	int				must_eat_count;
 	int				threads_created;
 	long			start_time;
-	bool			simulation_stop;
-	pthread_mutex_t	stop_mutex;
+	bool			sim_stop;
+	pthread_mutex_t	sim_stop_mutex;
 	pthread_mutex_t	print_mutex;
 }	t_data;
 
@@ -61,7 +61,7 @@ typedef struct s_philo
 	pthread_t		thread;
 	long			time_to_live;
 	int				meals_eaten;
-	pthread_mutex_t	meal_mutex;
+	pthread_mutex_t	state_mutex;
 	pthread_mutex_t	*right_fork_mutex;
 	pthread_mutex_t	*left_fork_mutex;
 	t_data			*data;
@@ -95,8 +95,8 @@ int				take_forks(t_philo *philo);
 void			release_forks(t_philo *philo);
 
 // monitor.c
-bool			is_simulation_stopped(void);
-void			stop_simulation(void);
+bool			is_sim_stopped(void);
+void			sim_stop(void);
 void			monitor_simulation(void);
 
 // cleanup.c
@@ -110,7 +110,7 @@ void			setup_signals(int mode);
 long			get_time_ms(void);
 long			get_elapsed_time(long start_time);
 void			print_status(t_philo *philo, char *status);
-void			precise_sleep(long milliseconds);
+void			precise_sleep(long ms);
 void			print_meal_summary(char *status);
 
 #endif
