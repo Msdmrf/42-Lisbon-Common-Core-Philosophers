@@ -6,11 +6,11 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:46 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/12 13:57:44 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/15 11:59:41 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/philo.h"
+#include "../inc/philo_bonus.h"
 
 void	kill_all_processes(void)
 {

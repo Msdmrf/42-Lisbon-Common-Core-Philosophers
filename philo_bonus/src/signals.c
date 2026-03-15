@@ -6,11 +6,11 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:51 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/13 16:42:10 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/15 11:59:50 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/philo.h"
+#include "../inc/philo_bonus.h"
 
 t_singleton	*singleton(void)
 {

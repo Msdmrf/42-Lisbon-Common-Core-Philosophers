@@ -6,11 +6,11 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:05 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/12 13:47:05 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/15 11:59:08 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/philo.h"
+#include "../inc/philo_bonus.h"
 
 int	main(int argc, char **argv)
 {

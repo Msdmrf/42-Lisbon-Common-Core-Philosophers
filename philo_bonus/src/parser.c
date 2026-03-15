@@ -6,11 +6,11 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:15 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/13 19:41:46 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/15 11:59:14 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/philo.h"
+#include "../inc/philo_bonus.h"
 
 static void	show_usage(void)
 {

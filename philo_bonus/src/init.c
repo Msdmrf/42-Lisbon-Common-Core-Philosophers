@@ -6,11 +6,11 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:21 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/13 19:04:50 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/15 11:59:17 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/philo.h"
+#include "../inc/philo_bonus.h"
 
 bool	init_semaphores(t_data *data)
 {

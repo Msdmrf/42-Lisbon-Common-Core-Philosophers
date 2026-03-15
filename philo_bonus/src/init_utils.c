@@ -6,11 +6,11 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 09:03:48 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/13 19:39:00 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/15 11:59:20 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../inc/philo.h"
+#include "../inc/philo_bonus.h"
 
 void	unlink_all_semaphores(void)
 {

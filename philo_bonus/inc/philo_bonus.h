@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo.h                                            :+:      :+:    :+:   */
+/*   philo_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:30:55 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/13 19:44:50 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/15 11:58:30 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_H
-# define PHILO_H
+#ifndef PHILO_BONUS_H
+# define PHILO_BONUS_H
 
+# include <fcntl.h>
 # include <pthread.h>
 # include <semaphore.h>
 # include <signal.h>
@@ -22,7 +23,6 @@
 # include <sys/time.h>
 # include <sys/wait.h>
 # include <unistd.h>
-# include <fcntl.h>
 
 // Enable Debug Mode
 # define PHILO_DEBUG	0
