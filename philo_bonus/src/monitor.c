@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:40 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/15 23:00:50 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/16 00:27:44 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ bool	is_sim_stopped(t_data *data)
 	bool	stopped;
 
 	sem_wait(data->stop_sem);
-	stopped = data->simulation_stop;
+	stopped = data->sim_stop;
 	sem_post(data->stop_sem);
 	return (stopped);
 }
@@ -25,7 +25,7 @@ bool	is_sim_stopped(t_data *data)
 void	sim_stop(t_data *data)
 {
 	sem_wait(data->stop_sem);
-	data->simulation_stop = true;
+	data->sim_stop = true;
 	sem_post(data->stop_sem);
 }
 
