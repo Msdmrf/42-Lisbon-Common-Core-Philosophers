@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/09 09:17:36 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/15 11:59:25 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/16 00:33:45 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,6 @@ void	philo_think(t_philo *philo)
 		think_time = philo->data->time_to_eat * 2
 			- philo->data->time_to_sleep;
 		if (think_time > 0 && think_time < philo->data->time_to_die)
-			usleep(think_time * 1000);
+			precise_sleep(think_time);
 	}
 }
