@@ -6,7 +6,7 @@
 #    By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/17 15:30:49 by migusant          #+#    #+#              #
-#    Updated: 2026/03/17 17:48:51 by migusant         ###   ########.fr        #
+#    Updated: 2026/03/17 21:09:32 by migusant         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,7 +81,6 @@ ARGS = 5 800 200 200 7
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -pthread
-#CFLAGS = -Wall -Wextra -Werror -fsanitize=thread -g
 RM = rm -f
 
 # **************************************************************************** #
@@ -144,8 +143,8 @@ v: all
 	@mkdir -p $(LOG_DIR)
 	@clear && timeout --foreground --signal=SIGINT $(TIMEOUT_VALGRIND) \
 		valgrind --leak-check=full --show-leak-kinds=all \
-		--track-origins=yes \
-		--log-file=$(LOG_DIR)valgrind.log -s ./$(NAME) $(ARGS); \
+		--track-origins=yes --log-file=$(LOG_DIR)valgrind.log \
+		-s ./$(NAME) $(ARGS); \
 	result=$$?; \
 	if [ $$result -eq 124 ]; then \
 		echo "\n(Timeout [$(TIMEOUT_VALGRIND)s]: $(ARGS))\n"; \
@@ -156,13 +155,24 @@ vp: all
 	@mkdir -p $(LOG_DIR)
 	@clear && timeout --foreground --signal=SIGINT $(TIMEOUT_VALGRIND) \
 		valgrind --leak-check=full --show-leak-kinds=all \
-		--track-origins=yes \
-		--log-file=$(LOG_DIR)valgrind_%p.log -s ./$(NAME) $(ARGS); \
+		--track-origins=yes --log-file=$(LOG_DIR)valgrind_%p.log \
+		-s ./$(NAME) $(ARGS); \
 	result=$$?; \
 	if [ $$result -eq 124 ]; then \
 		echo "\n(Timeout [$(TIMEOUT_VALGRIND)s]: $(ARGS))\n"; \
 	fi
 	@cat $(LOG_DIR)valgrind_*.log
+
+d: all
+	@mkdir -p $(LOG_DIR)
+	@clear && timeout --foreground --signal=SIGINT $(TIMEOUT_VALGRIND) \
+		valgrind --tool=drd --log-file=$(LOG_DIR)drd.log \
+		-s ./$(NAME) $(ARGS); \
+	result=$$?; \
+	if [ $$result -eq 124 ]; then \
+		echo "\n(Timeout [$(TIMEOUT_VALGRIND)s]: $(ARGS))\n"; \
+	fi
+	@cat $(LOG_DIR)drd.log
 
 # **************************************************************************** #
 #                            COMPILATION RULES                                 #
@@ -205,4 +215,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re t v vp
+.PHONY: all clean fclean re t v vp d

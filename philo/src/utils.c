@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 09:06:17 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/16 18:48:27 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/17 20:53:13 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,9 @@ void	print_meal_summary(char *message)
 	i = 0;
 	while (i < singleton()->data->philo_count)
 	{
-		pthread_mutex_lock(&singleton()->philos[i].state_mutex);
 		printf("Philosopher %d ate %d times\n",
 			singleton()->philos[i].id,
 			singleton()->philos[i].meals_eaten);
-		pthread_mutex_unlock(&singleton()->philos[i].state_mutex);
 		i++;
 	}
 	pthread_mutex_unlock(&singleton()->data->print_mutex);
