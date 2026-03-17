@@ -6,7 +6,7 @@
 #    By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/02 10:20:02 by migusant          #+#    #+#              #
-#    Updated: 2026/03/17 17:58:57 by migusant         ###   ########.fr        #
+#    Updated: 2026/03/17 18:23:54 by migusant         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -213,4 +213,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re t v h
+.PHONY: all clean fclean re t v h d
