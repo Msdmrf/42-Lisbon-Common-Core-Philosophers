@@ -6,7 +6,7 @@
 #    By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/02 10:20:02 by migusant          #+#    #+#              #
-#    Updated: 2026/03/17 17:30:23 by migusant         ###   ########.fr        #
+#    Updated: 2026/03/17 17:58:57 by migusant         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,6 +81,7 @@ ARGS = 5 800 200 200 7
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -pthread
+#CFLAGS = -Wall -Wextra -Werror -fsanitize=thread -g
 RM = rm -f
 
 # **************************************************************************** #
@@ -160,6 +161,17 @@ h: all
 		echo "\n(Timeout [$(TIMEOUT_VALGRIND)s]: $(ARGS))\n"; \
 	fi
 	@cat $(LOG_DIR)helgrind.log
+
+d: all
+	@mkdir -p $(LOG_DIR)
+	@clear && timeout --foreground $(TIMEOUT_VALGRIND) \
+		valgrind --tool=drd --log-file=$(LOG_DIR)drd.log \
+		-s ./$(NAME) $(ARGS); \
+	result=$$?; \
+	if [ $$result -eq 124 ]; then \
+		echo "\n(Timeout [$(TIMEOUT_VALGRIND)s]: $(ARGS))\n"; \
+	fi
+	@cat $(LOG_DIR)drd.log
 
 # **************************************************************************** #
 #                            COMPILATION RULES                                 #
