@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/03 09:06:17 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/15 18:34:59 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/16 18:48:27 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	precise_sleep(long ms)
 	while (1)
 	{
 		elapsed = get_time_ms() - start;
-		if (elapsed >= ms)
+		if (elapsed >= ms || is_sim_stopped())
 			break ;
 		usleep(500);
 	}

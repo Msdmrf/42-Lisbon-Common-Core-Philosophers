@@ -6,7 +6,7 @@
 #    By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/17 15:30:49 by migusant          #+#    #+#              #
-#    Updated: 2026/03/16 10:41:28 by migusant         ###   ########.fr        #
+#    Updated: 2026/03/16 19:04:06 by migusant         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ TIMEOUT_VALGRIND = 30
 
 #ARGS = 1 800 200 200
 #ARGS = 5 800 200 200
-#ARGS = 5 800 200 200 7
+ARGS = 5 800 200 200 7
 #ARGS = 4 410 200 200
 #ARGS = 4 310 200 100
 #ARGS = 2 410 200 200
@@ -80,7 +80,8 @@ TIMEOUT_VALGRIND = 30
 # **************************************************************************** #
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pthread
+#CFLAGS = -Wall -Wextra -Werror -pthread
+CFLAGS = -Wall -Wextra -Werror -fsanitize=thread -g
 RM = rm -f
 
 # **************************************************************************** #

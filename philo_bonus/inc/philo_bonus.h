@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:30:55 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/16 00:27:44 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/17 16:37:46 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PHILO_BONUS_H
 
 # include <fcntl.h>
+# include <limits.h>
 # include <pthread.h>
 # include <semaphore.h>
 # include <signal.h>

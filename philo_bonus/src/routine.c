@@ -39,7 +39,7 @@ static void	stop_monitor(t_philo *philo)
 
 static bool	philo_should_exit(t_philo *philo)
 {
-	if (philo->data->must_eat_count == -1)
+	if (philo->data->must_eat_count == INT_MAX)
 		return (false);
 	return (philo->meals_eaten >= philo->data->must_eat_count);
 }

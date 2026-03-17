@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:15 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/16 00:27:44 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/17 16:37:58 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static bool	validate_data(t_data *data)
 		printf("Error: invalid time values\n");
 		return (false);
 	}
-	if (data->must_eat_count == 0 || data->must_eat_count < -1)
+	if (data->must_eat_count == 0)
 	{
 		printf("Error: must eat at least once\n");
 		return (false);
@@ -102,7 +102,7 @@ t_data	*parse_args(int argc, char **argv)
 	if (argc == 6)
 		data->must_eat_count = ft_atoi(argv[5]);
 	else
-		data->must_eat_count = -1;
+		data->must_eat_count = INT_MAX;
 	data->start_time = 0;
 	data->sim_stop = false;
 	data->forks_sem = NULL;

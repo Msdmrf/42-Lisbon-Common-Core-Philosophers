@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/04 10:45:47 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/15 19:01:00 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/17 16:35:14 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static bool	check_all_ate(void)
 	int	i;
 	int	satisfied_count;
 
-	if (singleton()->data->must_eat_count == -1)
+	if (singleton()->data->must_eat_count == INT_MAX)
 		return (false);
 	satisfied_count = 0;
 	i = 0;

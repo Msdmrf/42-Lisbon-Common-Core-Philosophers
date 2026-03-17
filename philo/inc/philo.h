@@ -6,13 +6,14 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 10:20:50 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/15 19:01:00 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/17 16:34:06 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILO_H
 # define PHILO_H
 
+# include <limits.h>
 # include <pthread.h>
 # include <signal.h>
 # include <stdbool.h>
