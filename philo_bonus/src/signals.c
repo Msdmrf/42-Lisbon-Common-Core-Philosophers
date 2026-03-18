@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:51 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/18 14:10:16 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/18 15:27:12 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,9 @@ static void	handle_interrupt(int sig)
 		return ;
 	if (singleton()->data)
 	{
+		atomic_store(&singleton()->data->sim_interrupt, true);
 		sim_stop();
 		kill_all_processes();
-		if (PHILO_DEBUG)
-			printf("\n=== Simulation Interrupted ===\n");
 	}
 }
 

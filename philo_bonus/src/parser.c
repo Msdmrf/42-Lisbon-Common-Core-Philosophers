@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:15 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/18 10:49:18 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/18 15:24:30 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ t_data	*parse_args(int argc, char **argv)
 		data->must_eat_count = INT_MAX;
 	data->start_time = 0;
 	data->sim_stop = false;
+	atomic_init(&data->sim_interrupt, false);
 	data->forks_sem = NULL;
 	data->print_sem = NULL;
 	data->stop_sem = NULL;

@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:25 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/18 11:40:02 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/18 15:43:28 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,15 +61,27 @@ static void	wait_remaining_processes(int remaining)
 	}
 }
 
+static void	print_simulation_result(bool process_died, int processes_remaining)
+{
+	if (!PHILO_DEBUG)
+		return ;
+	if (atomic_load(&singleton()->data->sim_interrupt))
+		printf("\n=== Simulation Interrupted ===\n");
+	else if (process_died)
+		printf("\n=== Simulation Failed ===\n");
+	else if (processes_remaining == 0 && !is_sim_stopped())
+		printf("\n=== Simulation Completed ===\n");
+}
+
 void	wait_processes(void)
 {
 	pid_t	pid;
 	int		status;
 	int		processes_remaining;
-	bool	process_interrupted;
+	bool	process_died;
 
 	processes_remaining = singleton()->processes_created;
-	process_interrupted = false;
+	process_died = false;
 	while (processes_remaining > 0)
 	{
 		pid = waitpid(-1, &status, 0);
@@ -78,12 +90,10 @@ void	wait_processes(void)
 		processes_remaining--;
 		if (handle_process_exit(status))
 		{
-			process_interrupted = true;
+			process_died = true;
 			wait_remaining_processes(processes_remaining);
-			return ;
+			break ;
 		}
 	}
-	if (PHILO_DEBUG && processes_remaining == 0 && !process_interrupted
-		&& !is_sim_stopped())
-		printf("\n=== Simulation Completed ===\n");
+	print_simulation_result(process_died, processes_remaining);
 }

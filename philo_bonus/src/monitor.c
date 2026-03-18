@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:40 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/18 13:56:52 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/18 15:25:28 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ static bool	handle_philosopher_death(t_philo *philo)
 	printf("%ld %d died\n",
 		get_elapsed_time(philo->data->start_time), philo->id);
 	sem_post(philo->data->print_sem);
-	if (PHILO_DEBUG)
-		printf("\n=== Simulation Failed ===\n");
 	return (true);
 }
 

@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:21 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/18 13:55:55 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/18 15:25:08 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ bool	init_philo(t_philo *philo, t_data *data, int id)
 {
 	philo->id = id;
 	philo->meals_eaten = 0;
-	atomic_store(&philo->time_to_live, data->start_time + data->time_to_die);
+	atomic_init(&philo->time_to_live, data->start_time + data->time_to_die);
 	philo->data = data;
 	philo->monitor_created = false;
-	atomic_store(&philo->monitor_should_stop, false);
-	atomic_store(&philo->died, false);
+	atomic_init(&philo->monitor_should_stop, false);
+	atomic_init(&philo->died, false);
 	if (pthread_create(&philo->monitor_thread, NULL,
 			monitor_routine, philo) != 0)
 		return (false);
