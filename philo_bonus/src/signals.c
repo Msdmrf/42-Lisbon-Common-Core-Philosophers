@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:51 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/18 11:33:24 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/18 14:10:16 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,8 @@ static void	handle_interrupt(int sig)
 	static volatile sig_atomic_t	handled = 0;
 
 	(void)sig;
-	if (handled)
+	if (__atomic_exchange_n(&handled, 1, __ATOMIC_SEQ_CST))
 		return ;
-	handled = 1;
 	if (singleton()->data)
 	{
 		sim_stop();

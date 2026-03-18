@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:30 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/18 12:26:52 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/18 13:57:04 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	stop_monitor_thread(t_philo *philo)
 {
 	if (philo->monitor_created)
 	{
-		philo->monitor_should_stop = true;
+		atomic_store(&philo->monitor_should_stop, true);
 		pthread_join(philo->monitor_thread, NULL);
 	}
 }
@@ -67,7 +67,7 @@ static void	run_philo_cycle(t_philo *philo)
 	}
 	stop_monitor_thread(philo);
 	cleanup_resources(CLEANUP_CHILD);
-	if (philo->died)
+	if (atomic_load(&philo->died))
 		exit(1);
 	exit(0);
 }

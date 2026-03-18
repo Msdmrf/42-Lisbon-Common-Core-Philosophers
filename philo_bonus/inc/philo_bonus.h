@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:30:55 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/18 12:14:35 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/18 14:10:53 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <pthread.h>
 # include <semaphore.h>
 # include <signal.h>
+# include <stdatomic.h>
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -74,11 +75,11 @@ typedef struct s_data
 typedef struct s_philo
 {
 	int				id;
-	long			time_to_live;
+	atomic_long		time_to_live;
 	int				meals_eaten;
 	bool			monitor_created;
-	bool			monitor_should_stop;
-	bool			died;
+	atomic_bool		monitor_should_stop;
+	atomic_bool		died;
 	pthread_t		monitor_thread;
 	t_data			*data;
 }	t_philo;

@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:40 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/18 12:21:58 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/18 13:56:52 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static bool	handle_philosopher_death(t_philo *philo)
 {
 	if (sem_trywait(philo->data->death_sem) != 0)
 		return (false);
-	philo->died = true;
+	atomic_store(&philo->died, true);
 	sim_stop();
 	sem_wait(philo->data->print_sem);
 	printf("%ld %d died\n",
@@ -48,13 +48,15 @@ void	*monitor_routine(void *arg)
 {
 	t_philo	*philo;
 	long	current_time;
+	long	deadline;
 
 	philo = (t_philo *)arg;
-	while (!is_sim_stopped() && !philo->monitor_should_stop)
+	while (!is_sim_stopped() && !atomic_load(&philo->monitor_should_stop))
 	{
 		usleep(500);
 		current_time = get_time_ms();
-		if (current_time >= philo->time_to_live)
+		deadline = atomic_load(&philo->time_to_live);
+		if (current_time >= deadline)
 		{
 			handle_philosopher_death(philo);
 			return (NULL);

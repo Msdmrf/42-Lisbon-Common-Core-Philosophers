@@ -6,7 +6,7 @@
 #    By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/02/17 15:30:49 by migusant          #+#    #+#              #
-#    Updated: 2026/03/17 21:09:32 by migusant         ###   ########.fr        #
+#    Updated: 2026/03/18 14:11:11 by migusant         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,6 +81,7 @@ ARGS = 5 800 200 200 7
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -pthread
+#CFLAGS = -Wall -Wextra -Werror -fsanitize=thread -g
 RM = rm -f
 
 # **************************************************************************** #
