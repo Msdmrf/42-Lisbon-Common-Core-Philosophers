@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:30:55 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/17 16:37:46 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/18 01:56:38 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,27 @@
 // Enable Debug Mode
 # define PHILO_DEBUG	0
 
-// Semaphore Names
-# define SEM_FORKS		"/philo_forks"
-# define SEM_PRINT		"/philo_print"
-# define SEM_STOP		"/philo_stop"
-# define SEM_DEATH		"/philo_death"
+// Philosopher Count Thresholds
+# define PHILO_COUNT_SMALL		50
+# define PHILO_COUNT_MEDIUM		100
+# define PHILO_COUNT_LARGE		150
+
+// Stagger Delay Values
+# define STAGGER_DELAY_SMALL	50
+# define STAGGER_DELAY_MEDIUM	100
+# define STAGGER_DELAY_LARGE	150
+# define STAGGER_DELAY_XLARGE	200
 
 // Signal Modes
 # define SIG_SETUP		1
 # define SIG_RESET		2
 # define SIG_CHILD		3
+
+// Semaphore Names
+# define SEM_FORKS		"/philo_forks"
+# define SEM_PRINT		"/philo_print"
+# define SEM_STOP		"/philo_stop"
+# define SEM_DEATH		"/philo_death"
 
 // Cleanup Modes
 # define CLEANUP_PARENT 0
@@ -86,6 +97,7 @@ t_data			*parse_args(int argc, char **argv);
 // init.c
 bool			init_semaphores(t_data *data);
 pid_t			*init_pids(int count);
+bool			init_philo(t_philo *philo, t_data *data, int id);
 
 // init_utils.c
 void			unlink_all_semaphores(void);
@@ -102,6 +114,7 @@ void			wait_processes(void);
 void			philo_eat(t_philo *philo);
 void			philo_sleep(t_philo *philo);
 void			philo_think(t_philo *philo);
+void			philo_cycle(t_philo *philo);
 
 // routine.c
 void			philo_process(t_data *data, int id);
