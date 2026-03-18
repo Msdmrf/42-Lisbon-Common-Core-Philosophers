@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:30 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/18 02:01:45 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/18 11:40:16 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static bool	philo_should_exit(t_philo *philo)
 
 static void	run_philo_cycle(t_philo *philo)
 {
-	while (!is_sim_stopped(philo->data))
+	while (!is_sim_stopped())
 	{
 		philo_cycle(philo);
 		if (philo_should_exit(philo))

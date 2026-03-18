@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:58 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/16 18:47:33 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/18 11:41:22 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ void	print_status(t_philo *philo, char *status)
 {
 	long	timestamp;
 
-	if (is_sim_stopped(philo->data))
+	if (is_sim_stopped())
 		return ;
 	sem_wait(philo->data->print_sem);
 	if (sem_trywait(philo->data->death_sem) == 0)
 	{
-		if (!is_sim_stopped(philo->data))
+		if (!is_sim_stopped())
 		{
 			timestamp = get_elapsed_time(philo->data->start_time);
 			printf("%ld %d %s\n", timestamp, philo->id, status);
@@ -53,7 +53,7 @@ void	precise_sleep(long ms)
 	while (1)
 	{
 		elapsed = get_time_ms() - start;
-		if (elapsed >= ms || is_sim_stopped(singleton()->data))
+		if (elapsed >= ms || is_sim_stopped())
 			break ;
 		usleep(500);
 	}

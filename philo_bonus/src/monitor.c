@@ -6,19 +6,19 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:40 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/18 11:33:00 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/18 11:40:52 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/philo_bonus.h"
 
-bool	is_sim_stopped(t_data *data)
+bool	is_sim_stopped(void)
 {
 	bool	stopped;
 
-	sem_wait(data->stop_sem);
-	stopped = data->sim_stop;
-	sem_post(data->stop_sem);
+	sem_wait(singleton()->data->stop_sem);
+	stopped = singleton()->data->sim_stop;
+	sem_post(singleton()->data->stop_sem);
 	return (stopped);
 }
 
@@ -50,7 +50,7 @@ void	*monitor_routine(void *arg)
 	long	time_since_meal;
 
 	philo = (t_philo *)arg;
-	while (!is_sim_stopped(philo->data) && !philo->monitor_should_stop)
+	while (!is_sim_stopped() && !philo->monitor_should_stop)
 	{
 		usleep(500);
 		time_since_meal = get_time_ms() - philo->last_meal_time;
