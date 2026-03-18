@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:15 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/17 16:37:58 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/18 10:49:18 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ t_data	*parse_args(int argc, char **argv)
 	data->forks_sem = NULL;
 	data->print_sem = NULL;
 	data->stop_sem = NULL;
+	data->death_sem = NULL;
 	if (!validate_data(data))
 		return (free(data), NULL);
 	return (data);
