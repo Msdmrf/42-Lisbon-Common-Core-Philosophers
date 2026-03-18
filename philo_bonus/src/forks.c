@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:35 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/18 12:00:12 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/18 12:20:31 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ int	take_forks(t_philo *philo)
 		return (1);
 	if (wait_for_second_fork(philo))
 		return (1);
+	philo->time_to_live = get_time_ms() + philo->data->time_to_die;
 	return (0);
 }
 

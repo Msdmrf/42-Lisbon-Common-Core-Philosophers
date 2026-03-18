@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:21 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/18 01:57:00 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/18 12:18:24 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ bool	init_philo(t_philo *philo, t_data *data, int id)
 {
 	philo->id = id;
 	philo->meals_eaten = 0;
-	philo->last_meal_time = data->start_time;
+	philo->time_to_live = data->start_time + data->time_to_die;
 	philo->data = data;
 	philo->monitor_created = false;
 	philo->monitor_should_stop = false;

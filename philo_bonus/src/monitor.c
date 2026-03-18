@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:40 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/18 11:40:52 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/18 12:21:58 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,14 @@ static bool	handle_philosopher_death(t_philo *philo)
 void	*monitor_routine(void *arg)
 {
 	t_philo	*philo;
-	long	time_since_meal;
+	long	current_time;
 
 	philo = (t_philo *)arg;
 	while (!is_sim_stopped() && !philo->monitor_should_stop)
 	{
 		usleep(500);
-		time_since_meal = get_time_ms() - philo->last_meal_time;
-		if (time_since_meal >= philo->data->time_to_die)
+		current_time = get_time_ms();
+		if (current_time >= philo->time_to_live)
 		{
 			handle_philosopher_death(philo);
 			return (NULL);

@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:30 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/18 11:40:16 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/18 12:26:52 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static long	calculate_stagger_delay(t_philo *philo)
 	return (offset_ms + ((philo->id - 1) / 2) * step_ms);
 }
 
-static void	stop_monitor(t_philo *philo)
+static void	stop_monitor_thread(t_philo *philo)
 {
 	if (philo->monitor_created)
 	{
@@ -60,12 +60,12 @@ static void	run_philo_cycle(t_philo *philo)
 		philo_cycle(philo);
 		if (philo_should_exit(philo))
 		{
-			stop_monitor(philo);
+			stop_monitor_thread(philo);
 			cleanup_resources(CLEANUP_CHILD);
 			exit(0);
 		}
 	}
-	stop_monitor(philo);
+	stop_monitor_thread(philo);
 	cleanup_resources(CLEANUP_CHILD);
 	if (philo->died)
 		exit(1);

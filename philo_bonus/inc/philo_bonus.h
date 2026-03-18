@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:30:55 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/18 11:39:39 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/18 12:14:35 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ typedef struct s_data
 typedef struct s_philo
 {
 	int				id;
-	long			last_meal_time;
+	long			time_to_live;
 	int				meals_eaten;
 	bool			monitor_created;
 	bool			monitor_should_stop;
