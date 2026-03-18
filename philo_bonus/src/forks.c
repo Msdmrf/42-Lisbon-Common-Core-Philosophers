@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:35 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/18 11:40:40 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/18 12:00:12 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,8 @@ static int	handle_single_fork(t_philo *philo)
 {
 	sem_wait(philo->data->forks_sem);
 	print_status(philo, "has taken a fork");
-	while (!is_sim_stopped())
-		usleep(1000);
 	sem_post(philo->data->forks_sem);
+	precise_sleep(philo->data->time_to_die);
 	return (1);
 }
 
