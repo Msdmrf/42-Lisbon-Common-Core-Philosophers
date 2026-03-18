@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:25 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/15 23:00:50 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/18 11:32:30 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	start_processes(void)
 		pid = fork();
 		if (pid == -1)
 		{
-			sim_stop(singleton()->data);
+			sim_stop();
 			return (kill_all_processes());
 		}
 		else if (pid == 0)
@@ -45,7 +45,7 @@ static bool	handle_process_exit(int status)
 {
 	if (WIFEXITED(status) && WEXITSTATUS(status) == 1)
 	{
-		sim_stop(singleton()->data);
+		sim_stop();
 		kill_all_processes();
 		return (true);
 	}

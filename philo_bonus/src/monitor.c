@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:40 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/16 00:27:44 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/18 11:33:00 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ bool	is_sim_stopped(t_data *data)
 	return (stopped);
 }
 
-void	sim_stop(t_data *data)
+void	sim_stop(void)
 {
-	sem_wait(data->stop_sem);
-	data->sim_stop = true;
-	sem_post(data->stop_sem);
+	sem_wait(singleton()->data->stop_sem);
+	singleton()->data->sim_stop = true;
+	sem_post(singleton()->data->stop_sem);
 }
 
 static bool	handle_philosopher_death(t_philo *philo)
@@ -34,7 +34,7 @@ static bool	handle_philosopher_death(t_philo *philo)
 	if (sem_trywait(philo->data->death_sem) != 0)
 		return (false);
 	philo->died = true;
-	sim_stop(philo->data);
+	sim_stop();
 	sem_wait(philo->data->print_sem);
 	printf("%ld %d died\n",
 		get_elapsed_time(philo->data->start_time), philo->id);

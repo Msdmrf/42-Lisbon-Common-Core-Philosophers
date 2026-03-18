@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:30:55 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/18 01:56:38 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/18 11:31:59 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ void			release_forks(t_philo *philo);
 
 // monitor.c
 bool			is_sim_stopped(t_data *data);
-void			sim_stop(t_data *data);
+void			sim_stop(void);
 void			*monitor_routine(void *arg);
 
 // cleanup.c

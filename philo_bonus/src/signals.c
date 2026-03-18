@@ -6,7 +6,7 @@
 /*   By: migusant <migusant@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 15:31:51 by migusant          #+#    #+#             */
-/*   Updated: 2026/03/15 23:00:50 by migusant         ###   ########.fr       */
+/*   Updated: 2026/03/18 11:33:24 by migusant         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	handle_interrupt(int sig)
 	handled = 1;
 	if (singleton()->data)
 	{
-		sim_stop(singleton()->data);
+		sim_stop();
 		kill_all_processes();
 		if (PHILO_DEBUG)
 			printf("\n=== Simulation Interrupted ===\n");
@@ -40,7 +40,7 @@ static void	handle_sigterm(int sig)
 {
 	(void)sig;
 	if (singleton()->data)
-		sim_stop(singleton()->data);
+		sim_stop();
 }
 
 void	setup_signals(int mode)
