@@ -214,7 +214,6 @@ Death is reported as:
 - `man sem_open(3)` - Named semaphore creation/opening
 - `man sem_wait(3)` - Semaphore wait (decrement)
 - `man sem_trywait(3)` - Non-blocking semaphore wait
-- `man sem_timedwait(3)` - Timed semaphore wait
 - `man sem_post(3)` - Semaphore post (increment)
 - `man sem_close(3)` - Close semaphore descriptor
 - `man sem_unlink(3)` - Remove named semaphore
@@ -226,8 +225,9 @@ Death is reported as:
 
 **Debugging Tools:**
 - `man valgrind(1)` - Valgrind command-line options
-- [Valgrind User Manual](https://valgrind.org/docs/manual/manual.html) - Memory error detection
+- [Valgrind Manual](https://valgrind.org/docs/manual/manual.html) - Memory error detection
 - [Helgrind Manual](https://valgrind.org/docs/manual/hg-manual.html) - Thread error detection
+- [DRD Manual](https://valgrind.org/docs/manual/drd-manual.html) - Data Race error detection
 
 ### AI Usage
 
