@@ -69,8 +69,9 @@ The project provides separate Makefiles for mandatory and bonus parts.
 cd philo
 make        # Compile the project
 make t      # Run common test cases
-make v      # Run tests with Valgrind (memory leak detection)
-make h      # Run tests with Helgrind (thread error detection)
+make v      # Run tests with Valgrind       (memory leak detection)
+make h      # Run tests with Helgrind Tool  (thread error detection)
+make d      # Run tests with Data Race Tool (thread error detection)
 make clean  # Remove object files
 make fclean # Remove object files and executable
 make re     # Recompile from scratch
@@ -86,12 +87,17 @@ make        # Compile the bonus project
 make t      # Run common test cases
 make v      # Run tests with Valgrind (memory leak detection)
 make vp     # Run tests with Valgrind (process tracking leak detection)
+make d      # Run tests with Data Race Tool (thread error detection)
 make clean  # Remove object files
 make fclean # Remove object files and executable
 make re     # Recompile from scratch
 ```
 
 This produces the `philo_bonus` executable.
+
+`Helgrind` is a thread debugger which finds data races in multithreaded programs. It looks for memory locations which are accessed by more than one (POSIX p-)thread, but for which no consistently used (pthread_mutex_) lock can be found. Such locations are indicative of missing synchronisation between threads, and could cause hard-to-find timing-dependent problems. It is useful for any program that uses pthreads. It is a somewhat experimental tool, so your feedback is especially welcome here.
+
+`DRD` is a tool for detecting errors in multithreaded C and C++ programs. The tool works for any program that uses the POSIX threading primitives or that uses threading concepts built on top of the POSIX threading primitives. While Helgrind can detect locking order violations, for most programs DRD needs less memory to perform its analysis. 
 
 ### Execution
 
@@ -121,7 +127,7 @@ Both programs accept the same arguments:
 ./philo 1 800 200 200
 
 # Stress test with many philosophers
-./philo 200 410 200 200
+./philo 199 410 200 200
 
 # Tight death timing (should die)
 ./philo 4 310 200 100
@@ -132,16 +138,17 @@ Both programs accept the same arguments:
 Each status change is logged with a timestamp (in milliseconds from start) and philosopher ID:
 
 ```
-142 1 has taken a fork
-142 1 has taken a fork
-142 1 is eating
-342 1 is sleeping
-542 1 is thinking
+201 3 is eating
+201 1 is sleeping
+201 4 has taken a fork
+201 4 is eating
+201 5 has taken a fork
+401 1 is thinking
 ```
 
 Death is reported as:
 ```
-810 3 died
+311 1 died
 ```
 
 ## Technical Implementation
@@ -173,6 +180,7 @@ Death is reported as:
 - Forks are managed by a **named semaphore** (`/philo_forks`) with value = philosopher count
 - Additional named semaphores for printing, stopping, and death detection
 - Each process creates a **monitoring thread** to detect its own death
+- **Staggered start**: Philosophers start with calculated delays to reduce contention
 
 **Key Semaphores:**
 - `/philo_forks`: Counting semaphore (value = number of forks available)
