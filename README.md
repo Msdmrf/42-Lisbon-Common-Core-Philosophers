@@ -1,4 +1,4 @@
-*This project has been created as part of the 42 curriculum by Msdmrf.*
+*This project has been created as part of the 42 curriculum by migusant.*
 
 # Philosophers
 
@@ -16,7 +16,9 @@ The Philosophers project implements Dijkstra's famous **Dining Philosophers Prob
 - **Deadlock prevention** through resource ordering strategies
 - **Real-time monitoring** to detect philosopher death conditions
 - **Race condition protection** with proper mutex/semaphore synchronization
-- **Signal handling** for graceful interruption (Ctrl+C)
+- **Lock-free atomic operations** (`<stdatomic.h>`) for thread-safe state management in bonus part
+- **Signal handling** for graceful interruption (Ctrl+C) with atomic operations preventing race conditions
+- **Adaptive staggered start** algorithm scales from small (≤5) to extra-large (200+) philosopher counts
 - **Edge case handling** including single philosopher scenario
 
 ### Project Structure
@@ -52,7 +54,7 @@ The Philosophers project implements Dijkstra's famous **Dining Philosophers Prob
     │   ├── forks.c        # Fork handling with semaphores
     │   ├── monitor.c      # Death monitoring thread per process
     │   ├── utils.c        # Utilities
-    │   ├── signals.c      # Signal handling
+    │   ├── signals.c      # Signal handling with atomic operations
     │   └── cleanup.c      # Semaphore cleanup
     └── Makefile
 ```
@@ -160,7 +162,7 @@ Death is reported as:
 - Each fork is protected by a **mutex** (`pthread_mutex_t`)
 - A **monitor thread** in the main process checks for deaths and completion
 - **Deadlock prevention**: Even-numbered philosophers acquire forks in reverse order
-- **Staggered start**: Philosophers start with calculated delays to reduce contention
+- **Adaptive staggered start**: Philosophers start with calculated delays based on count (small: ≤5, medium: ≤50, large: ≤100, xlarge: 200+)
 
 **Key Synchronization Points:**
 - `fork_mutexes[]`: One mutex per fork (circular array)
@@ -172,6 +174,12 @@ Death is reported as:
 - Philosophers take forks in a specific order based on ID (even vs odd)
 - Single philosopher edge case handled separately (no eating possible)
 - Precise sleep using busy-wait + `usleep()` for accuracy
+- Adaptive thinking time for odd philosopher counts to prevent starvation
+
+**Signal Handling:**
+- Uses `__atomic_exchange_n` with `__ATOMIC_RELAXED` ordering for lock-free signal handler protection
+- Prevents multiple signal handler executions through atomic flag exchange
+- Ensures clean shutdown without mutex deadlocks in signal context
 
 ### Bonus Part: Processes & Semaphores
 
@@ -179,8 +187,8 @@ Death is reported as:
 - Each philosopher is a separate **process** (`fork()`)
 - Forks are managed by a **named semaphore** (`/philo_forks`) with value = philosopher count
 - Additional named semaphores for printing, stopping, and death detection
-- Each process creates a **monitoring thread** to detect its own death
-- **Staggered start**: Philosophers start with calculated delays to reduce contention
+- Each process creates a **monitoring thread** to detect its own death using atomic operations
+- **Adaptive staggered start**: Uses the same algorithm as mandatory part for consistent behavior across implementations
 
 **Key Semaphores:**
 - `/philo_forks`: Counting semaphore (value = number of forks available)
@@ -188,10 +196,17 @@ Death is reported as:
 - `/philo_stop`: Binary semaphore protecting stop flag
 - `/philo_death`: Binary semaphore ensuring only one death message
 
+**Atomic Operations (`<stdatomic.h>`):**
+- `atomic_init()`: Initialize atomic variables for time-to-live, monitor flags, and death status
+- `atomic_store()`: Thread-safe writes to shared state (philosopher death, monitor stop, simulation interrupt)
+- `atomic_load()`: Thread-safe reads from shared state in monitoring threads
+- `__atomic_exchange_n()` with `__ATOMIC_SEQ_CST`: Stronger ordering for signal handlers in multi-process environment
+
 **Advantages over threads:**
 - Complete memory isolation between philosophers
 - More realistic simulation of independent agents
 - Practice with IPC (Inter-Process Communication)
+- Lock-free monitoring using atomic operations reduces contention
 
 ## Resources
 
@@ -219,6 +234,11 @@ Death is reported as:
 - `man sem_unlink(3)` - Remove named semaphore
 - [Semaphores in Linux](https://man7.org/linux/man-pages/man7/sem_overview.7.html) - Overview of semaphore types
 
+**Atomic Operations:**
+- `man stdatomic(7)` - C11 atomic operations
+- [GCC Atomic Builtins](https://gcc.gnu.org/onlinedocs/gcc/_005f_005fatomic-Builtins.html) - `__atomic_exchange_n` and related functions
+- [Memory Order Documentation](https://en.cppreference.com/w/c/atomic/memory_order) - Understanding memory ordering semantics
+
 **Timing & System Calls:**
 - `man gettimeofday(2)` - Get current time with microsecond precision
 - `man usleep(3)` - Microsecond sleep
@@ -236,18 +256,23 @@ AI tools (GitHub Copilot, ChatGPT) were used as a **thinking partner and debuggi
 **Documentation & Understanding:**
 - Explaining complex threading concepts (mutexes, race conditions, deadlocks)
 - Clarifying differences between named and unnamed semaphores (even though only named semaphores were used in this implementation)
+- Understanding atomic operations and memory ordering semantics
+- Refining and structuring README.md documentation to accurately represent technical implementations and use the appropriate technical terminology for atomic operations and synchronization mechanisms
 
 **Code Review**
 - Identifying potential race conditions in critical sections
 - Suggesting proper mutex placement and lock ordering
+- Reviewing atomic operation usage for correctness
 
 **Learning Resources:**
 - Providing quick reference for pthread and semaphore function signatures
 - Clarifying process vs thread memory models
+- Explaining lock-free programming concepts
 
 **Testing Assistance & Debugging:**
 - Helping design test cases for edge scenarios
 - Debugging edge cases (single philosopher, high philosopher counts)
+- Identifying race conditions in signal handlers
 
 ## License
 
